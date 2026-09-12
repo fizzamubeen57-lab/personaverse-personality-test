@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<!-- settings.html -->
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - PersonaVerse</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .navbar-brand i {
+            -webkit-text-fill-color: initial;
+            color: #667eea;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.7) !important;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #ffffff !important;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: rgba(20, 20, 40, 0.5);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer .brand {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer .brand span {
+            color: white;
+        }
+
+        .footer .social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer .social a {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        .footer .social a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .footer .links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .footer .links a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.9rem;
+        }
+
+        .footer .links a:hover {
+            color: #667eea;
+        }
+
+        .footer .divider {
+            border-color: rgba(255, 255, 255, 0.05) !important;
+            margin: 2rem 0 1.5rem;
+        }
+
+        .footer .bottom-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .footer .bottom-text a {
+            color: rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .footer .bottom-text a:hover {
+            color: #667eea;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .btn-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-gradient:hover::before {
+            left: 100%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-brain me-2"></i>PersonaVerse
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+                <i class="fas fa-bars text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tests.html">Tests</a></li>
+                    <li class="nav-item"><a class="nav-link" href="mbti.html">MBTI</a></li>
+                    <li class="nav-item"><a class="nav-link" href="zodiac.html">Zodiac</a></li>
+                    <li class="nav-item"><a class="nav-link" href="compatibility.html">Compatibility</a></li>
+                    <li class="nav-item"><a class="nav-link" href="games.html">Games</a></li>
+                    <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="settings.html"><i class="fas fa-cog"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MOBILE MENU ===== -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu">
+        <div class="offcanvas-header" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+            <h5 class="offcanvas-title"><i class="fas fa-brain me-2"></i>PersonaVerse</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body" style="background: #0a0a1a;">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="tests.html">Tests</a></li>
+                <li class="nav-item"><a class="nav-link" href="mbti.html">MBTI</a></li>
+                <li class="nav-item"><a class="nav-link" href="zodiac.html">Zodiac</a></li>
+                <li class="nav-item"><a class="nav-link" href="compatibility.html">Compatibility</a></li>
+                <li class="nav-item"><a class="nav-link" href="games.html">Games</a></li>
+                <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="py-5 mt-5">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h1 class="display-4 fw-bold mb-3">⚙️ <span class="text-gradient">Settings</span></h1>
+                <p class="text-secondary">Customize your PersonaVerse experience</p>
+            </div>
+
+            <div class="row g-4 mt-3">
+                <!-- Theme -->
+                <div class="col-lg-6" data-aos="fade-up">
+                    <div class="glass p-4">
+                        <h5><i class="fas fa-palette me-2"></i>Theme</h5>
+                        <p class="text-secondary small">Choose your preferred theme</p>
+                        <div class="d-flex gap-3">
+                            <button class="btn btn-gradient" onclick="setTheme('dark')">
+                                <i class="fas fa-moon me-2"></i>Dark
+                            </button>
+                            <button class="btn btn-outline-glass" onclick="setTheme('light')">
+                                <i class="fas fa-sun me-2"></i>Light
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accent Color -->
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="glass p-4">
+                        <h5><i class="fas fa-fill-drip me-2"></i>Accent Color</h5>
+                        <p class="text-secondary small">Choose your accent color</p>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button class="btn" style="background: #667eea; width: 40px; height: 40px; border-radius: 50%;" onclick="setAccent('#667eea')"></button>
+                            <button class="btn" style="background: #764ba2; width: 40px; height: 40px; border-radius: 50%;" onclick="setAccent('#764ba2')"></button>
+                            <button class="btn" style="background: #f093fb; width: 40px; height: 40px; border-radius: 50%;" onclick="setAccent('#f093fb')"></button>
+                            <button class="btn" style="background: #f5576c; width: 40px; height: 40px; border-radius: 50%;" onclick="setAccent('#f5576c')"></button>
+                            <button class="btn" style="background: #4ade80; width: 40px; height: 40px; border-radius: 50%;" onclick="setAccent('#4ade80')"></button>
+                            <button class="btn" style="background: #60a5fa; width: 40px; height: 40px; border-radius: 50%;" onclick="setAccent('#60a5fa')"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Profile -->
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="glass p-4">
+                        <h5><i class="fas fa-user me-2"></i>Profile</h5>
+                        <p class="text-secondary small">Update your profile information</p>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">Username</label>
+                            <input type="text" class="form-control bg-transparent border-secondary text-white" id="usernameInput" placeholder="Your username">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">Avatar Emoji</label>
+                            <input type="text" class="form-control bg-transparent border-secondary text-white" id="avatarInput" placeholder="e.g., 🧠" maxlength="2">
+                        </div>
+                        <button class="btn btn-gradient" onclick="saveProfile()">
+                            <i class="fas fa-save me-2"></i>Save Profile
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Privacy -->
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="glass p-4">
+                        <h5><i class="fas fa-shield-alt me-2"></i>Privacy & Data</h5>
+                        <p class="text-secondary small">Manage your data and privacy settings</p>
+                        <div class="d-flex flex-column gap-2">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="saveHistory" checked>
+                                <label class="form-check-label text-secondary" for="saveHistory">Save test history</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="saveAchievements" checked>
+                                <label class="form-check-label text-secondary" for="saveAchievements">Track achievements</label>
+                            </div>
+                            <hr class="border-secondary opacity-25">
+                            <button class="btn btn-outline-danger" onclick="clearAllData()">
+                                <i class="fas fa-trash me-2"></i>Clear All Data
+                            </button>
+                            <button class="btn btn-outline-danger" onclick="resetProgress()">
+                                <i class="fas fa-undo me-2"></i>Reset Progress
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About -->
+                <div class="col-12" data-aos="fade-up" data-aos-delay="400">
+                    <div class="glass p-4">
+                        <h5><i class="fas fa-info-circle me-2"></i>About PersonaVerse</h5>
+                        <p class="text-secondary">
+                            <strong>Version:</strong> 1.0.0<br>
+                            <strong>Built with:</strong> HTML, CSS, JavaScript, Bootstrap 5<br>
+                            <strong>Data Storage:</strong> LocalStorage<br>
+                            <strong>Made with:</strong> ❤️ for personality discovery
+                        </p>
+                        <div class="d-flex gap-3">
+                            <a href="#" class="text-secondary"><i class="fab fa-github fa-2x"></i></a>
+                            <a href="#" class="text-secondary"><i class="fab fa-twitter fa-2x"></i></a>
+                            <a href="#" class="text-secondary"><i class="fab fa-instagram fa-2x"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="mt-4" data-aos="fade-up">
+                <div class="glass p-4">
+                    <h5><i class="fas fa-chart-line me-2"></i>Your Statistics</h5>
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-3 col-6">
+                            <div class="glass p-3 text-center">
+                                <div class="h2 text-primary" id="statXP">0</div>
+                                <div class="text-secondary">XP</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="glass p-3 text-center">
+                                <div class="h2 text-success" id="statLevel">1</div>
+                                <div class="text-secondary">Level</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="glass p-3 text-center">
+                                <div class="h2 text-warning" id="statStreak">0</div>
+                                <div class="text-secondary">Streak</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="glass p-3 text-center">
+                                <div class="h2 text-info" id="statQuizzes">0</div>
+                                <div class="text-secondary">Quizzes</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/storage.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+        // Load settings
+        document.addEventListener('DOMContentLoaded', () => {
+            AOS.init({ duration: 800, once: true });
+            loadSettings();
+            loadStats();
+        });
+
+        function loadSettings() {
+            const storage = window.StorageManager || {};
+            const profile = storage.getProfile();
+            
+            document.getElementById('usernameInput').value = profile.username || '';
+            document.getElementById('avatarInput').value = profile.avatar || '🧠';
+            
+            // Load theme
+            const theme = storage.getTheme();
+            document.documentElement.setAttribute('data-bs-theme', theme);
+            
+            // Load preferences
+            const saveHistory = storage.get('saveHistory', true);
+            document.getElementById('saveHistory').checked = saveHistory;
+            
+            const saveAchievements = storage.get('saveAchievements', true);
+            document.getElementById('saveAchievements').checked = saveAchievements;
+        }
+
+        function loadStats() {
+            const storage = window.StorageManager || {};
+            const stats = storage.getStats ? storage.getStats() : { xp: 0, level: 1 };
+            
+            document.getElementById('statXP').textContent = stats.xp || 0;
+            document.getElementById('statLevel').textContent = stats.level || 1;
+            document.getElementById('statStreak').textContent = stats.streak || 0;
+            document.getElementById('statQuizzes').textContent = stats.quizzes || 0;
+        }
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-bs-theme', theme);
+            const storage = window.StorageManager || {};
+            storage.saveTheme(theme);
+            showToast(`Theme switched to ${theme} mode 🌙`, 'success');
+        }
+
+        function setAccent(color) {
+            document.documentElement.style.setProperty('--primary-gradient', `linear-gradient(135deg, ${color} 0%, #764ba2 100%)`);
+            showToast('Accent color updated! 🎨', 'success');
+        }
+
+        function saveProfile() {
+            const username = document.getElementById('usernameInput').value || 'Explorer';
+            const avatar = document.getElementById('avatarInput').value || '🧠';
+            
+            const storage = window.StorageManager || {};
+            storage.saveProfile({ username, avatar });
+            showToast('Profile saved successfully! ✅', 'success');
+        }
+
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all data? This cannot be undone.')) {
+                const storage = window.StorageManager || {};
+                storage.clearAll();
+                showToast('All data cleared! 🗑️', 'warning');
+                setTimeout(() => window.location.reload(), 1000);
+            }
+        }
+
+        function resetProgress() {
+            if (confirm('Reset all progress? Your achievements and history will be lost.')) {
+                const storage = window.StorageManager || {};
+                storage.set('xp', 0);
+                storage.set('level', 1);
+                storage.set('streak', 0);
+                storage.set('completed_quizzes', 0);
+                storage.set('achievements', []);
+                storage.set('test_history', []);
+                showToast('Progress reset! 🔄', 'warning');
+                loadStats();
+            }
+        }
+    </script>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="brand">
+                        <i class="fas fa-brain me-2"></i><span>Persona</span>Verse
+                    </div>
+                    <p class="text-secondary mt-3" style="font-size: 0.9rem; max-width: 300px;">
+                        Discover your true self through personality tests, zodiac insights, and interactive experiences.
+                    </p>
+                    <div class="social">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-spotify"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Explore</h6>
+                    <div class="links">
+                        <a href="tests.html">Tests</a>
+                        <a href="mbti.html">MBTI</a>
+                        <a href="zodiac.html">Zodiac</a>
+                        <a href="games.html">Games</a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Community</h6>
+                    <div class="links">
+                        <a href="leaderboard.html">Leaderboard</a>
+                        <a href="blog.html">Blog</a>
+                        <a href="compatibility.html">Compatibility</a>
+                        <a href="settings.html">Settings</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Stay Updated</h6>
+                    <p class="text-secondary" style="font-size: 0.85rem;">Subscribe to get the latest personality insights and updates.</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Your email" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 50px 0 0 50px; padding: 0.6rem 1rem;">
+                        <button class="btn btn-gradient" style="border-radius: 0 50px 50px 0; padding: 0.6rem 1.2rem;">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr class="divider">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <span class="bottom-text">© 2026 PersonaVerse. All rights reserved.</span>
+                <div class="bottom-text d-flex gap-3">
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Privacy Policy</a>
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Terms of Service</a>
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>

@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<!-- compatibility.html -->
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compatibility - SoulSync</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .compat-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+        }
+        .compat-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(102, 126, 234, 0.4);
+            box-shadow: 0 12px 48px rgba(102, 126, 234, 0.12);
+        }
+        .compat-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .compat-result {
+            animation: fadeUp 0.5s ease;
+        }
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .compat-meter {
+            height: 8px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.08);
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        .compat-meter .meter-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.8s ease;
+        }
+        .compat-badge {
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .compat-badge.perfect { background: rgba(74, 222, 128, 0.2); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3); }
+        .compat-badge.good { background: rgba(251, 191, 36, 0.2); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); }
+        .compat-badge.challenging { background: rgba(251, 113, 133, 0.2); color: #fb7185; border: 1px solid rgba(251, 113, 133, 0.3); }
+        .compat-badge.interesting { background: rgba(96, 165, 250, 0.2); color: #60a5fa; border: 1px solid rgba(96, 165, 250, 0.3); }
+        
+        .compat-history-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        .compat-history-item:hover {
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+        .sign-select {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        .sign-select:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.15);
+        }
+        .sign-select option {
+            background: #1a1a3e;
+            color: white;
+        }
+        .compat-detail {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .compat-detail .label {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .compat-detail .value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .navbar-brand i {
+            -webkit-text-fill-color: initial;
+            color: #667eea;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.7) !important;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #ffffff !important;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: rgba(20, 20, 40, 0.5);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer .brand {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer .brand span {
+            color: white;
+        }
+
+        .footer .social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer .social a {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        .footer .social a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .footer .links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .footer .links a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.9rem;
+        }
+
+        .footer .links a:hover {
+            color: #667eea;
+        }
+
+        .footer .divider {
+            border-color: rgba(255, 255, 255, 0.05) !important;
+            margin: 2rem 0 1.5rem;
+        }
+
+        .footer .bottom-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .footer .bottom-text a {
+            color: rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .footer .bottom-text a:hover {
+            color: #667eea;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .btn-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-gradient:hover::before {
+            left: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-brain me-2"></i>PersonaVerse
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+                <i class="fas fa-bars text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tests.html">Tests</a></li>
+                    <li class="nav-item"><a class="nav-link" href="mbti.html">MBTI</a></li>
+                    <li class="nav-item"><a class="nav-link" href="zodiac.html">Zodiac</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="compatibility.html">Compatibility</a></li>
+                    <li class="nav-item"><a class="nav-link" href="games.html">Games</a></li>
+                    <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="settings.html"><i class="fas fa-cog"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MOBILE MENU ===== -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu">
+        <div class="offcanvas-header" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+            <h5 class="offcanvas-title"><i class="fas fa-brain me-2"></i>PersonaVerse</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body" style="background: #0a0a1a;">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="tests.html">Tests</a></li>
+                <li class="nav-item"><a class="nav-link" href="mbti.html">MBTI</a></li>
+                <li class="nav-item"><a class="nav-link" href="zodiac.html">Zodiac</a></li>
+                <li class="nav-item"><a class="nav-link" href="compatibility.html">Compatibility</a></li>
+                <li class="nav-item"><a class="nav-link" href="games.html">Games</a></li>
+                <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ====== COMPATIBILITY PAGE ====== -->
+    <section class="py-5 mt-5">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h1 class="display-4 fw-bold mb-3">💞 <span class="text-gradient">Compatibility</span> Checker</h1>
+                <p class="text-secondary">Discover how well you match with others based on zodiac and personality</p>
+            </div>
+
+            <!-- Compatibility Checker -->
+            <div class="row justify-content-center mt-4" data-aos="fade-up">
+                <div class="col-lg-8">
+                    <div class="glass p-4 rounded-4">
+                        <h5 class="mb-3"><i class="fas fa-heart text-danger me-2"></i>Check Your Compatibility</h5>
+                        <div class="row g-3">
+                            <div class="col-md-5">
+                                <label class="text-secondary small">Your Sign</label>
+                                <select class="sign-select" id="compatSign1">
+                                    <option value="">Select your sign</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 text-center d-flex align-items-center justify-content-center">
+                                <span style="font-size: 2rem;">❤️</span>
+                            </div>
+                            <div class="col-md-5">
+                                <label class="text-secondary small">Their Sign</label>
+                                <select class="sign-select" id="compatSign2">
+                                    <option value="">Select their sign</option>
+                                </select>
+                            </div>
+                            <div class="col-12 text-center mt-3">
+                                <button class="btn btn-gradient px-5" onclick="checkCompatibility()">
+                                    <i class="fas fa-heart me-2"></i>Check Compatibility
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Result -->
+            <div id="compatResult" class="mt-4" style="display:none;"></div>
+
+            <!-- Quick Matches -->
+            <div class="mt-5" data-aos="fade-up">
+                <h3 class="mb-3">✨ Quick <span class="text-gradient">Matches</span></h3>
+                <div class="row g-3" id="quickMatches">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Compatibility History -->
+            <div class="mt-5" data-aos="fade-up">
+                <h3 class="mb-3"><i class="fas fa-history me-2"></i>Your Compatibility History</h3>
+                <div id="compatHistory" class="row g-3">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Compatibility Tips -->
+            <div class="mt-5" data-aos="fade-up">
+                <h3 class="mb-3">💡 <span class="text-gradient">Compatibility</span> Tips</h3>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="compat-detail text-center">
+                            <div style="font-size: 2rem;">🌟</div>
+                            <h6>Communication</h6>
+                            <p class="text-secondary small">Open and honest communication is key to any successful relationship.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="compat-detail text-center">
+                            <div style="font-size: 2rem;">🤝</div>
+                            <h6>Understanding</h6>
+                            <p class="text-secondary small">Take time to understand each other's perspectives and differences.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="compat-detail text-center">
+                            <div style="font-size: 2rem;">💕</div>
+                            <h6>Respect</h6>
+                            <p class="text-secondary small">Mutual respect and appreciation strengthen any bond.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="brand">
+                        <i class="fas fa-brain me-2"></i><span>Persona</span>Verse
+                    </div>
+                    <p class="text-secondary mt-3" style="font-size: 0.9rem; max-width: 300px;">
+                        Discover your true self through personality tests, zodiac insights, and interactive experiences.
+                    </p>
+                    <div class="social">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-spotify"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Explore</h6>
+                    <div class="links">
+                        <a href="tests.html">Tests</a>
+                        <a href="mbti.html">MBTI</a>
+                        <a href="zodiac.html">Zodiac</a>
+                        <a href="games.html">Games</a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Community</h6>
+                    <div class="links">
+                        <a href="leaderboard.html">Leaderboard</a>
+                        <a href="blog.html">Blog</a>
+                        <a href="compatibility.html">Compatibility</a>
+                        <a href="settings.html">Settings</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Stay Updated</h6>
+                    <p class="text-secondary" style="font-size: 0.85rem;">Subscribe to get the latest personality insights and updates.</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Your email" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 50px 0 0 50px; padding: 0.6rem 1rem;">
+                        <button class="btn btn-gradient" style="border-radius: 0 50px 50px 0; padding: 0.6rem 1.2rem;">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr class="divider">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <span class="bottom-text">© 2026 PersonaVerse. All rights reserved.</span>
+                <div class="bottom-text d-flex gap-3">
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Privacy Policy</a>
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Terms of Service</a>
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        // ====== ZODIAC DATA ======
+        const zodiacSigns = {
+            "Aries": { 
+                symbol: "♈", element: "Fire", traits: ["Bold", "Ambitious", "Energetic"],
+                compatibility: ["Leo", "Sagittarius", "Gemini", "Aquarius"]
+            },
+            "Taurus": { 
+                symbol: "♉", element: "Earth", traits: ["Patient", "Reliable", "Practical"],
+                compatibility: ["Virgo", "Capricorn", "Cancer", "Pisces"]
+            },
+            "Gemini": { 
+                symbol: "♊", element: "Air", traits: ["Curious", "Adaptable", "Witty"],
+                compatibility: ["Libra", "Aquarius", "Aries", "Leo"]
+            },
+            "Cancer": { 
+                symbol: "♋", element: "Water", traits: ["Nurturing", "Sensitive", "Intuitive"],
+                compatibility: ["Scorpio", "Pisces", "Taurus", "Virgo"]
+            },
+            "Leo": { 
+                symbol: "♌", element: "Fire", traits: ["Confident", "Generous", "Charismatic"],
+                compatibility: ["Aries", "Sagittarius", "Gemini", "Libra"]
+            },
+            "Virgo": { 
+                symbol: "♍", element: "Earth", traits: ["Analytical", "Practical", "Detail-oriented"],
+                compatibility: ["Taurus", "Capricorn", "Cancer", "Scorpio"]
+            },
+            "Libra": { 
+                symbol: "♎", element: "Air", traits: ["Diplomatic", "Charming", "Fair-minded"],
+                compatibility: ["Gemini", "Aquarius", "Leo", "Sagittarius"]
+            },
+            "Scorpio": { 
+                symbol: "♏", element: "Water", traits: ["Passionate", "Resourceful", "Mysterious"],
+                compatibility: ["Cancer", "Pisces", "Virgo", "Capricorn"]
+            },
+            "Sagittarius": { 
+                symbol: "♐", element: "Fire", traits: ["Adventurous", "Optimistic", "Philosophical"],
+                compatibility: ["Aries", "Leo", "Libra", "Aquarius"]
+            },
+            "Capricorn": { 
+                symbol: "♑", element: "Earth", traits: ["Disciplined", "Ambitious", "Practical"],
+                compatibility: ["Taurus", "Virgo", "Scorpio", "Pisces"]
+            },
+            "Aquarius": { 
+                symbol: "♒", element: "Air", traits: ["Innovative", "Humanitarian", "Eccentric"],
+                compatibility: ["Gemini", "Libra", "Aries", "Sagittarius"]
+            },
+            "Pisces": { 
+                symbol: "♓", element: "Water", traits: ["Empathetic", "Artistic", "Intuitive"],
+                compatibility: ["Cancer", "Scorpio", "Taurus", "Capricorn"]
+            }
+        };
+
+        // ====== POPULATE DROPDOWNS ======
+        function populateSelects() {
+            const select1 = document.getElementById('compatSign1');
+            const select2 = document.getElementById('compatSign2');
+            
+            Object.keys(zodiacSigns).forEach(sign => {
+                select1.innerHTML += `<option value="${sign}">${zodiacSigns[sign].symbol} ${sign}</option>`;
+                select2.innerHTML += `<option value="${sign}">${zodiacSigns[sign].symbol} ${sign}</option>`;
+            });
+        }
+
+        // ====== CHECK COMPATIBILITY ======
+        function checkCompatibility() {
+            const sign1 = document.getElementById('compatSign1').value;
+            const sign2 = document.getElementById('compatSign2').value;
+            
+            if (!sign1 || !sign2) {
+                showToast('Please select both signs!', 'warning');
+                return;
+            }
+
+            if (sign1 === sign2) {
+                showToast('Please select two different signs!', 'warning');
+                return;
+            }
+
+            const data1 = zodiacSigns[sign1];
+            const data2 = zodiacSigns[sign2];
+            
+            const compat1 = data1.compatibility.includes(sign2);
+            const compat2 = data2.compatibility.includes(sign1);
+            
+            let score = 0;
+            let label = '';
+            let badge = '';
+            let description = '';
+            
+            if (compat1 && compat2) {
+                score = 95;
+                label = 'Perfect Match!';
+                badge = 'perfect';
+                description = '✨ You share deep cosmic harmony! Your signs naturally complement each other.';
+            } else if (compat1 || compat2) {
+                score = 75;
+                label = 'Good Match!';
+                badge = 'good';
+                description = '💫 There\'s strong potential for a great connection. With effort, this can be amazing!';
+            } else if (data1.element === data2.element) {
+                score = 60;
+                label = 'Interesting Match!';
+                badge = 'interesting';
+                description = '🌊 Same element creates understanding but can also bring challenges. Keep an open mind!';
+            } else {
+                score = 40;
+                label = 'Challenging Match';
+                badge = 'challenging';
+                description = '🌊 Opposites attract! This pairing requires more work but can be deeply rewarding.';
+            }
+
+            // Display result
+            const resultDiv = document.getElementById('compatResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <div class="glass p-4 rounded-4 compat-result">
+                    <div class="text-center">
+                        <div class="d-flex align-items-center justify-content-center gap-4">
+                            <div style="font-size: 4rem;">${data1.symbol}</div>
+                            <div style="font-size: 3rem; color: #f43f5e;">❤️</div>
+                            <div style="font-size: 4rem;">${data2.symbol}</div>
+                        </div>
+                        <h3 class="mt-2">${sign1} & ${sign2}</h3>
+                        <span class="compat-badge ${badge}">${label}</span>
+                    </div>
+                    
+                    <div class="compat-meter mt-3">
+                        <div class="meter-fill" style="width: 0%; background: linear-gradient(90deg, #667eea, #764ba2);"></div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <span class="display-6" id="scoreDisplay">${score}%</span>
+                    </div>
+                    
+                    <p class="text-secondary text-center mt-2">${description}</p>
+                    
+                    <div class="row g-3 mt-3">
+                        <div class="col-md-6">
+                            <div class="compat-detail text-center">
+                                <div class="label">${sign1}'s Traits</div>
+                                <div class="value">${data1.traits.join(' · ')}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="compat-detail text-center">
+                                <div class="label">${sign2}'s Traits</div>
+                                <div class="value">${data2.traits.join(' · ')}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <button class="btn btn-outline-glass btn-sm" onclick="shareCompatibility('${sign1}', '${sign2}', ${score})">
+                            <i class="fas fa-share-alt me-1"></i>Share Result
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Animate meter
+            setTimeout(() => {
+                document.querySelector('.meter-fill').style.width = score + '%';
+            }, 200);
+
+            // Save to history
+            saveCompatHistory(sign1, sign2, score, label);
+            loadCompatHistory();
+            triggerConfetti();
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ====== QUICK MATCHES ======
+        function renderQuickMatches() {
+            const container = document.getElementById('quickMatches');
+            const signs = Object.keys(zodiacSigns);
+            const shuffled = signs.sort(() => Math.random() - 0.5).slice(0, 6);
+            
+            container.innerHTML = shuffled.map(sign => `
+                <div class="col-lg-2 col-md-3 col-6">
+                    <div class="compat-card" onclick="selectSign('${sign}')">
+                        <div style="font-size: 3rem;">${zodiacSigns[sign].symbol}</div>
+                        <div class="fw-bold">${sign}</div>
+                        <div class="text-secondary small">${zodiacSigns[sign].element}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectSign(sign) {
+            document.getElementById('compatSign1').value = sign;
+            document.getElementById('compatSign2').value = '';
+            document.getElementById('compatSign2').focus();
+            showToast(`Selected ${sign}. Now choose a second sign!`, 'info');
+        }
+
+        // ====== COMPATIBILITY HISTORY ======
+        function saveCompatHistory(sign1, sign2, score, label) {
+            const history = JSON.parse(localStorage.getItem('compatHistory') || '[]');
+            history.unshift({
+                sign1: sign1,
+                sign2: sign2,
+                score: score,
+                label: label,
+                date: new Date().toLocaleDateString(),
+                id: Date.now()
+            });
+            localStorage.setItem('compatHistory', JSON.stringify(history.slice(0, 10)));
+        }
+
+        function loadCompatHistory() {
+            const history = JSON.parse(localStorage.getItem('compatHistory') || '[]');
+            const container = document.getElementById('compatHistory');
+            
+            if (history.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12">
+                        <div class="glass p-4 text-center">
+                            <p class="text-secondary">No compatibility checks yet. Check your match above!</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = history.map(item => `
+                <div class="col-md-6">
+                    <div class="compat-history-item">
+                        <div>
+                            <strong>${item.sign1} ❤️ ${item.sign2}</strong>
+                            <span class="compat-badge ${item.label === 'Perfect Match!' ? 'perfect' : item.label === 'Good Match!' ? 'good' : item.label === 'Interesting Match!' ? 'interesting' : 'challenging'} ms-2" 
+                                  style="font-size: 0.7rem; padding: 0.2rem 0.6rem;">
+                                ${item.score}%
+                            </span>
+                            <div class="text-secondary small">${item.date}</div>
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteCompatHistory(${item.id})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function deleteCompatHistory(id) {
+            let history = JSON.parse(localStorage.getItem('compatHistory') || '[]');
+            history = history.filter(item => item.id !== id);
+            localStorage.setItem('compatHistory', JSON.stringify(history));
+            loadCompatHistory();
+            showToast('History entry deleted!', 'info');
+        }
+
+        // ====== SHARE ======
+        function shareCompatibility(sign1, sign2, score) {
+            const text = `💞 My compatibility result: ${sign1} ❤️ ${sign2} = ${score}%! Check yours at SoulSync ✨`;
+            if (navigator.share) {
+                navigator.share({ title: 'Compatibility Result', text: text }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(text);
+                showToast('Result copied to clipboard! 📋', 'success');
+            }
+        }
+
+        // ====== TOAST ======
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: rgba(20,20,40,0.9);
+                backdrop-filter: blur(12px);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 16px;
+                padding: 1rem 1.5rem;
+                color: white;
+                z-index: 9999;
+                animation: slideUp 0.3s ease;
+                max-width: 350px;
+            `;
+            const colors = { success: '#4ade80', warning: '#f59e0b', danger: '#f87171', info: '#60a5fa' };
+            toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : type === 'danger' ? 'times-circle' : 'info-circle'}" style="color:${colors[type]}; margin-right:10px;"></i> ${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
+        }
+
+        // ====== CONFETTI ======
+        function triggerConfetti() {
+            const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4ade80', '#60a5fa'];
+            for (let i = 0; i < 30; i++) {
+                const piece = document.createElement('div');
+                piece.style.cssText = `
+                    position: fixed;
+                    width: ${Math.random() * 8 + 4}px;
+                    height: ${Math.random() * 8 + 4}px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    left: ${Math.random() * 100}vw;
+                    top: -10px;
+                    border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+                    z-index: 9999;
+                    pointer-events: none;
+                    animation: confettiFall ${Math.random() * 2 + 2}s linear forwards;
+                    animation-delay: ${Math.random() * 0.5}s;
+                `;
+                document.body.appendChild(piece);
+                setTimeout(() => piece.remove(), 3000);
+            }
+        }
+
+        // ====== INIT ======
+        document.addEventListener('DOMContentLoaded', () => {
+            populateSelects();
+            renderQuickMatches();
+            loadCompatHistory();
+        });
+
+        // Add animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes confettiFall {
+                0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+                100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+            }
+            @keyframes slideUp {
+                0% { opacity: 0; transform: translateY(20px); }
+                100% { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        console.log('💞 Compatibility page loaded successfully!');
+    </script>
+</body>
+</html>

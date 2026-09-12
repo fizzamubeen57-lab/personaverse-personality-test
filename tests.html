@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<!-- tests.html -->
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality Tests - SoulSync</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .test-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+        }
+        .test-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(102, 126, 234, 0.4);
+            box-shadow: 0 12px 48px rgba(102, 126, 234, 0.15);
+        }
+        .test-card .icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        .test-card .badge {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.8rem;
+        }
+        .quiz-modal-content {
+            background: rgba(20,20,40,0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 2rem;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .quiz-option {
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            border: 2px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.03);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        .quiz-option:hover {
+            background: rgba(102, 126, 234, 0.12);
+            border-color: #667eea;
+        }
+        .quiz-option.selected {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.15);
+        }
+        .history-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        .history-item:hover {
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+        .result-card {
+            animation: fadeUp 0.5s ease;
+        }
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .progress-bar-custom {
+            height: 6px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.08);
+            overflow: hidden;
+        }
+        .progress-bar-custom .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.4s ease;
+            border-radius: 10px;
+        }
+        .disc-result-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .disc-result-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+        .disc-result-card .disc-icon {
+            font-size: 3rem;
+        }
+        .enneagram-result {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .enneagram-number {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .navbar-brand i {
+            -webkit-text-fill-color: initial;
+            color: #667eea;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.7) !important;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #ffffff !important;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: rgba(20, 20, 40, 0.5);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer .brand {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer .brand span {
+            color: white;
+        }
+
+        .footer .social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer .social a {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        .footer .social a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .footer .links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .footer .links a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.9rem;
+        }
+
+        .footer .links a:hover {
+            color: #667eea;
+        }
+
+        .footer .divider {
+            border-color: rgba(255, 255, 255, 0.05) !important;
+            margin: 2rem 0 1.5rem;
+        }
+
+        .footer .bottom-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .footer .bottom-text a {
+            color: rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .footer .bottom-text a:hover {
+            color: #667eea;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .btn-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-gradient:hover::before {
+            left: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-brain me-2"></i>PersonaVerse
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+                <i class="fas fa-bars text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="tests.html">Tests</a></li>
+                    <li class="nav-item"><a class="nav-link" href="mbti.html">MBTI</a></li>
+                    <li class="nav-item"><a class="nav-link" href="zodiac.html">Zodiac</a></li>
+                    <li class="nav-item"><a class="nav-link" href="compatibility.html">Compatibility</a></li>
+                    <li class="nav-item"><a class="nav-link" href="games.html">Games</a></li>
+                    <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="settings.html"><i class="fas fa-cog"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MOBILE MENU ===== -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu">
+        <div class="offcanvas-header" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+            <h5 class="offcanvas-title"><i class="fas fa-brain me-2"></i>PersonaVerse</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body" style="background: #0a0a1a;">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="tests.html">Tests</a></li>
+                <li class="nav-item"><a class="nav-link" href="mbti.html">MBTI</a></li>
+                <li class="nav-item"><a class="nav-link" href="zodiac.html">Zodiac</a></li>
+                <li class="nav-item"><a class="nav-link" href="compatibility.html">Compatibility</a></li>
+                <li class="nav-item"><a class="nav-link" href="games.html">Games</a></li>
+                <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ====== TESTS PAGE ====== -->
+    <section class="py-5 mt-5">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h1 class="display-4 fw-bold mb-3">Personality <span class="text-gradient">Tests</span></h1>
+                <p class="text-secondary">Choose a test and discover more about yourself</p>
+            </div>
+
+            <!-- Test Cards -->
+            <div class="row g-4 mt-4">
+                <div class="col-lg-3 col-md-6" data-aos="flip-up" data-aos-delay="100">
+                    <div class="test-card" onclick="startTest('mbti')">
+                        <div class="icon">🧠</div>
+                        <h5>MBTI Test</h5>
+                        <p class="text-secondary small">80 questions · 16 types</p>
+                        <span class="badge bg-primary">Popular</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="flip-up" data-aos-delay="200">
+                    <div class="test-card" onclick="startTest('bigfive')">
+                        <div class="icon">📊</div>
+                        <h5>Big Five</h5>
+                        <p class="text-secondary small">50 questions · 5 dimensions</p>
+                        <span class="badge bg-success">New</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="flip-up" data-aos-delay="300">
+                    <div class="test-card" onclick="startTest('disc')">
+                        <div class="icon">🎯</div>
+                        <h5>DISC Test</h5>
+                        <p class="text-secondary small">24 questions · 4 styles</p>
+                        <span class="badge bg-info">Updated</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="flip-up" data-aos-delay="400">
+                    <div class="test-card" onclick="startTest('enneagram')">
+                        <div class="icon">🌟</div>
+                        <h5>Enneagram</h5>
+                        <p class="text-secondary small">27 questions · 9 types</p>
+                        <span class="badge bg-warning">Popular</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="flip-up" data-aos-delay="500">
+                    <div class="test-card" onclick="startTest('lovelanguage')">
+                        <div class="icon">❤️</div>
+                        <h5>Love Language</h5>
+                        <p class="text-secondary small">30 questions · 5 languages</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="flip-up" data-aos-delay="600">
+                    <div class="test-card" onclick="startTest('eq')">
+                        <div class="icon">🧘</div>
+                        <h5>Emotional IQ</h5>
+                        <p class="text-secondary small">35 questions · 6 dimensions</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="flip-up" data-aos-delay="700">
+                    <div class="test-card" onclick="startTest('ie')">
+                        <div class="icon">🔄</div>
+                        <h5>Introvert/Extrovert</h5>
+                        <p class="text-secondary small">25 questions · Social battery</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="flip-up" data-aos-delay="800">
+                    <div class="test-card" onclick="startTest('career')">
+                        <div class="icon">💼</div>
+                        <h5>Career Test</h5>
+                        <p class="text-secondary small">30 questions · Career match</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test History -->
+            <div class="mt-5" data-aos="fade-up">
+                <h3 class="mb-3"><i class="fas fa-history me-2"></i>Your Test History</h3>
+                <div id="testHistory" class="row g-3">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== QUIZ MODAL ====== -->
+    <div class="modal fade" id="quizModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content bg-transparent border-0">
+                <div class="quiz-modal-content">
+                    <div id="quizContent">
+                        <!-- Dynamically loaded -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="brand">
+                        <i class="fas fa-brain me-2"></i><span>Persona</span>Verse
+                    </div>
+                    <p class="text-secondary mt-3" style="font-size: 0.9rem; max-width: 300px;">
+                        Discover your true self through personality tests, zodiac insights, and interactive experiences.
+                    </p>
+                    <div class="social">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-spotify"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Explore</h6>
+                    <div class="links">
+                        <a href="tests.html">Tests</a>
+                        <a href="mbti.html">MBTI</a>
+                        <a href="zodiac.html">Zodiac</a>
+                        <a href="games.html">Games</a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Community</h6>
+                    <div class="links">
+                        <a href="leaderboard.html">Leaderboard</a>
+                        <a href="blog.html">Blog</a>
+                        <a href="compatibility.html">Compatibility</a>
+                        <a href="settings.html">Settings</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Stay Updated</h6>
+                    <p class="text-secondary" style="font-size: 0.85rem;">Subscribe to get the latest personality insights and updates.</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Your email" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 50px 0 0 50px; padding: 0.6rem 1rem;">
+                        <button class="btn btn-gradient" style="border-radius: 0 50px 50px 0; padding: 0.6rem 1.2rem;">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr class="divider">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <span class="bottom-text">© 2026 PersonaVerse. All rights reserved.</span>
+                <div class="bottom-text d-flex gap-3">
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Privacy Policy</a>
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Terms of Service</a>
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        let quizModal;
+        let currentQuiz = null;
+        let currentQuestion = 0;
+        let quizAnswers = [];
+        let quizQuestions = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            quizModal = new bootstrap.Modal(document.getElementById('quizModal'));
+            loadTestHistory();
+        });
+
+        // ====== TEST DATA ======
+        const testData = {
+            mbti: {
+                name: 'MBTI Test',
+                questions: [
+                    { q: "You prefer to spend time with a close group of friends rather than a large crowd.", options: ["Yes", "No"] },
+                    { q: "You often think about abstract ideas and future possibilities.", options: ["Yes", "No"] },
+                    { q: "When making decisions, you prioritize feelings and values over logic.", options: ["Yes", "No"] },
+                    { q: "You like to plan things in advance and follow a schedule.", options: ["Yes", "No"] },
+                    { q: "You feel energized after spending time alone.", options: ["Yes", "No"] }
+                ],
+                calculate: (answers) => {
+                    let e = 0, i = 0;
+                    if (answers[0] === "No") e++; else i++;
+                    if (answers[3] === "No") e++; else i++;
+                    const EI = e >= i ? 'E' : 'I';
+                    let n = 0, s = 0;
+                    if (answers[1] === "Yes") n++; else s++;
+                    if (answers[4] === "Yes") n++; else s++;
+                    const NS = n >= s ? 'N' : 'S';
+                    let f = 0, t = 0;
+                    if (answers[2] === "Yes") f++; else t++;
+                    const FT = f >= t ? 'F' : 'T';
+                    const JP = 'J';
+                    return EI + NS + FT + JP;
+                },
+                getResult: (type) => {
+                    const types = {
+                        "INFP": { desc: "The Mediator – creative, empathetic, driven by values.", traits: ["Empathy", "Creativity", "Idealism"] },
+                        "ENFP": { desc: "The Campaigner – enthusiastic, creative, sociable.", traits: ["Energy", "Curiosity", "Optimism"] },
+                        "INTJ": { desc: "The Architect – strategic, analytical, visionary.", traits: ["Strategy", "Independence", "Insight"] },
+                        "INFJ": { desc: "The Advocate – insightful, principled, and altruistic.", traits: ["Insight", "Integrity", "Compassion"] },
+                        "ISTJ": { desc: "The Logistician – practical, fact-minded, dependable.", traits: ["Reliability", "Logic", "Structure"] },
+                        "ISFJ": { desc: "The Defender – warm, dedicated, protective.", traits: ["Support", "Patience", "Loyalty"] }
+                    };
+                    return types[type] || { desc: "A unique personality type!", traits: ["Creative", "Insightful"] };
+                }
+            },
+            bigfive: {
+                name: 'Big Five Test',
+                questions: [
+                    { q: "You are outgoing and sociable.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "You enjoy trying new things.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "You are organized and like structure.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "You are compassionate and caring.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "You are calm and handle stress well.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] }
+                ],
+                calculate: (answers) => {
+                    const scores = answers.map(a => ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'].indexOf(a) + 1);
+                    const traits = ['Extraversion', 'Openness', 'Conscientiousness', 'Agreeableness', 'Neuroticism'];
+                    return traits.map((t, i) => ({ trait: t, score: scores[i] }));
+                }
+            },
+            // ====== DISC TEST (FIXED) ======
+            disc: {
+                name: 'DISC Test',
+                questions: [
+                    { q: "I prefer to lead rather than follow.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I enjoy being the center of attention.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I am competitive and goal-oriented.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I am decisive and quick to act.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I enjoy persuading others to my point of view.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I am optimistic and enthusiastic.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I enjoy social gatherings and meeting new people.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I am good at motivating others.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I am patient and calm under pressure.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I value stability and consistency.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I am a good listener and team player.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I avoid conflict and seek harmony.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I am detail-oriented and precise.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I prefer to follow rules and procedures.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I am analytical and logical.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I value accuracy and quality.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I enjoy taking risks.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I am assertive and direct.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I prefer to work independently.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I am confident in my abilities.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I am empathetic and understanding.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I value relationships over tasks.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I am flexible and adaptable.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] },
+                    { q: "I prefer to follow rather than lead.", options: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"] }
+                ],
+                calculate: (answers) => {
+                    const scores = answers.map(a => ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'].indexOf(a) + 1);
+                    
+                    // D (Dominance): questions 1,3,4,5,17,18,19,20
+                    const dScores = [0,2,3,4,16,17,18,19].map(i => scores[i]);
+                    const d = dScores.reduce((a,b) => a + b, 0) / dScores.length;
+                    
+                    // I (Influence): questions 2,6,7,8,21,22
+                    const iScores = [1,5,6,7,20,21].map(i => scores[i]);
+                    const i = iScores.reduce((a,b) => a + b, 0) / iScores.length;
+                    
+                    // S (Steadiness): questions 9,10,11,12,23
+                    const sScores = [8,9,10,11,22].map(i => scores[i]);
+                    const s = sScores.reduce((a,b) => a + b, 0) / sScores.length;
+                    
+                    // C (Conscientiousness): questions 13,14,15,16
+                    const cScores = [12,13,14,15].map(i => scores[i]);
+                    const c = cScores.reduce((a,b) => a + b, 0) / cScores.length;
+                    
+                    // Find dominant style
+                    const styles = [
+                        { name: 'Dominance (D)', letter: 'D', score: d, desc: 'Direct, decisive, and results-oriented. Natural leaders who love challenges.', color: '#f43f5e' },
+                        { name: 'Influence (I)', letter: 'I', score: i, desc: 'Outgoing, enthusiastic, and persuasive. Great communicators and motivators.', color: '#f59e0b' },
+                        { name: 'Steadiness (S)', letter: 'S', score: s, desc: 'Calm, patient, and supportive. Excellent team players and listeners.', color: '#4ade80' },
+                        { name: 'Conscientiousness (C)', letter: 'C', score: c, desc: 'Analytical, detail-oriented, and precise. High standards and quality focus.', color: '#60a5fa' }
+                    ];
+                    
+                    styles.sort((a,b) => b.score - a.score);
+                    return styles;
+                }
+            },
+            // ====== ENNEAGRAM TEST (FIXED) ======
+            enneagram: {
+                name: 'Enneagram Test',
+                questions: [
+                    { q: "I focus on perfection and have high standards.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am helpful and caring toward others.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am driven to achieve and be successful.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am introspective and deeply emotional.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am analytical and like to understand everything.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am loyal and committed to others.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am optimistic and see the bright side.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am assertive and like to take control.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am peaceful and avoid conflict.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am critical of myself and others.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I enjoy helping people and being needed.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I want to be admired and recognized.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I have intense emotions and deep feelings.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I seek knowledge and understanding.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am anxious and worry about safety.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I enjoy new experiences and adventure.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am direct and confront problems head-on.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am easygoing and go with the flow.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am organized and detail-oriented.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am warm and nurturing.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am confident and self-assured.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am artistic and creative.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am curious and always asking questions.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am cautious and like to be prepared.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am spontaneous and fun-loving.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am decisive and take charge.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am calm and maintain inner peace.", options: ["Rarely", "Sometimes", "Often", "Always"] }
+                ],
+                calculate: (answers) => {
+                    const scores = answers.map(a => ['Rarely', 'Sometimes', 'Often', 'Always'].indexOf(a) + 1);
+                    
+                    // Type 1: Perfectionist - questions 1,10,19
+                    const type1 = [0,9,18].map(i => scores[i]).reduce((a,b) => a + b, 0);
+                    // Type 2: Helper - questions 2,11,20
+                    const type2 = [1,10,19].map(i => scores[i]).reduce((a,b) => a + b, 0);
+                    // Type 3: Achiever - questions 3,12,21
+                    const type3 = [2,11,20].map(i => scores[i]).reduce((a,b) => a + b, 0);
+                    // Type 4: Individualist - questions 4,13,22
+                    const type4 = [3,12,21].map(i => scores[i]).reduce((a,b) => a + b, 0);
+                    // Type 5: Investigator - questions 5,14,23
+                    const type5 = [4,13,22].map(i => scores[i]).reduce((a,b) => a + b, 0);
+                    // Type 6: Loyalist - questions 6,15,24
+                    const type6 = [5,14,23].map(i => scores[i]).reduce((a,b) => a + b, 0);
+                    // Type 7: Enthusiast - questions 7,16,25
+                    const type7 = [6,15,24].map(i => scores[i]).reduce((a,b) => a + b, 0);
+                    // Type 8: Challenger - questions 8,17,26
+                    const type8 = [7,16,25].map(i => scores[i]).reduce((a,b) => a + b, 0);
+                    // Type 9: Peacemaker - questions 9,18,27
+                    const type9 = [8,17,26].map(i => scores[i]).reduce((a,b) => a + b, 0);
+
+                    const types = [
+                        { number: 1, name: 'The Perfectionist', desc: 'Principled, purposeful, and self-controlled. Seek to improve everything.', score: type1 },
+                        { number: 2, name: 'The Helper', desc: 'Caring, generous, and people-pleasing. Want to be loved and needed.', score: type2 },
+                        { number: 3, name: 'The Achiever', desc: 'Success-oriented, driven, and image-conscious. Want to be admired.', score: type3 },
+                        { number: 4, name: 'The Individualist', desc: 'Sensitive, introspective, and expressive. Want to be unique and authentic.', score: type4 },
+                        { number: 5, name: 'The Investigator', desc: 'Intense, cerebral, and perceptive. Want to understand the world.', score: type5 },
+                        { number: 6, name: 'The Loyalist', desc: 'Committed, security-oriented, and engaging. Want to be safe and secure.', score: type6 },
+                        { number: 7, name: 'The Enthusiast', desc: 'Spontaneous, versatile, and acquisitive. Want to be happy and satisfied.', score: type7 },
+                        { number: 8, name: 'The Challenger', desc: 'Self-confident, decisive, and protective. Want to be in control.', score: type8 },
+                        { number: 9, name: 'The Peacemaker', desc: 'Receptive, reassuring, and agreeable. Want to maintain peace.', score: type9 }
+                    ];
+
+                    types.sort((a,b) => b.score - a.score);
+                    return types;
+                }
+            },
+            lovelanguage: {
+                name: 'Love Language Test',
+                questions: [
+                    { q: "I feel loved when someone spends quality time with me.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "Words of affirmation make me feel valued.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I appreciate receiving thoughtful gifts.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "Acts of service show me someone cares.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "Physical touch makes me feel connected.", options: ["Rarely", "Sometimes", "Often", "Always"] }
+                ],
+                calculate: (answers) => {
+                    const languages = ['Quality Time', 'Words of Affirmation', 'Receiving Gifts', 'Acts of Service', 'Physical Touch'];
+                    const scores = answers.map(a => ['Rarely', 'Sometimes', 'Often', 'Always'].indexOf(a) + 1);
+                    const max = Math.max(...scores);
+                    return languages[scores.indexOf(max)];
+                }
+            },
+            eq: {
+                name: 'Emotional IQ Test',
+                questions: [
+                    { q: "I can recognize my emotions as they happen.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I can manage my emotions effectively.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I am motivated to achieve my goals.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I can understand others' emotions.", options: ["Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I can build and maintain relationships.", options: ["Rarely", "Sometimes", "Often", "Always"] }
+                ],
+                calculate: (answers) => {
+                    const score = answers.map(a => ['Rarely', 'Sometimes', 'Often', 'Always'].indexOf(a) + 1).reduce((a,b) => a + b, 0);
+                    return Math.round((score / 20) * 100);
+                }
+            },
+            ie: {
+                name: 'Introvert/Extrovert Test',
+                questions: [
+                    { q: "I feel energized after social interactions.", options: ["Never", "Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I enjoy being the center of attention.", options: ["Never", "Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I prefer working in groups rather than alone.", options: ["Never", "Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I think out loud and talk through problems.", options: ["Never", "Rarely", "Sometimes", "Often", "Always"] },
+                    { q: "I prefer quiet and solitude.", options: ["Never", "Rarely", "Sometimes", "Often", "Always"] }
+                ],
+                calculate: (answers) => {
+                    const scores = answers.map(a => ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'].indexOf(a) + 1);
+                    const eScore = scores[0] + scores[1] + scores[2] + scores[3];
+                    const iScore = scores[4] * 4;
+                    const total = eScore + iScore;
+                    const extravertPercent = Math.round((eScore / total) * 100);
+                    return extravertPercent > 60 ? 'Extrovert' : extravertPercent > 40 ? 'Ambivert' : 'Introvert';
+                }
+            },
+            career: {
+                name: 'Career Test',
+                questions: [
+                    { q: "I enjoy working with people.", options: ["Disagree", "Neutral", "Agree"] },
+                    { q: "I am good at solving problems.", options: ["Disagree", "Neutral", "Agree"] },
+                    { q: "I am creative and innovative.", options: ["Disagree", "Neutral", "Agree"] },
+                    { q: "I am organized and detail-oriented.", options: ["Disagree", "Neutral", "Agree"] },
+                    { q: "I am a natural leader.", options: ["Disagree", "Neutral", "Agree"] }
+                ],
+                calculate: (answers) => {
+                    const scores = answers.map(a => ['Disagree', 'Neutral', 'Agree'].indexOf(a) + 1);
+                    const total = scores.reduce((a,b) => a + b, 0);
+                    const careers = {
+                        high: 'Leadership, Management, Entrepreneurship',
+                        medium: 'Education, Healthcare, Creative Arts',
+                        low: 'Administrative, Technical, Research'
+                    };
+                    if (total >= 13) return careers.high;
+                    if (total >= 9) return careers.medium;
+                    return careers.low;
+                }
+            }
+        };
+
+        // ====== START TEST ======
+        function startTest(testId) {
+            const test = testData[testId];
+            if (!test) {
+                showToast('Test not found!', 'danger');
+                return;
+            }
+
+            currentQuiz = testId;
+            currentQuestion = 0;
+            quizQuestions = test.questions;
+            quizAnswers = new Array(quizQuestions.length).fill(null);
+
+            renderQuizQuestion();
+            quizModal.show();
+        }
+
+        function renderQuizQuestion() {
+            if (currentQuestion >= quizQuestions.length) {
+                showQuizResults();
+                return;
+            }
+
+            const q = quizQuestions[currentQuestion];
+            const content = document.getElementById('quizContent');
+            const progress = Math.round((currentQuestion / quizQuestions.length) * 100);
+
+            let optionsHtml = q.options.map(opt => `
+                <div class="col-md-6">
+                    <div class="quiz-option ${quizAnswers[currentQuestion] === opt ? 'selected' : ''}" 
+                         onclick="selectQuizOption('${opt}')">
+                        ${opt}
+                    </div>
+                </div>
+            `).join('');
+
+            content.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4>${testData[currentQuiz].name}</h4>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="text-secondary">Question ${currentQuestion + 1}/${quizQuestions.length}</span>
+                        <span class="text-secondary">${progress}%</span>
+                    </div>
+                    <div class="progress-bar-custom">
+                        <div class="progress-fill" style="width: ${progress}%;"></div>
+                    </div>
+                </div>
+                <h5 class="mb-4">${q.q}</h5>
+                <div class="row g-3">
+                    ${optionsHtml}
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                    <button class="btn btn-outline-glass" onclick="prevQuizQuestion()" ${currentQuestion === 0 ? 'disabled' : ''}>
+                        <i class="fas fa-arrow-left me-2"></i>Previous
+                    </button>
+                    <button class="btn btn-gradient" onclick="nextQuizQuestion()">
+                        ${currentQuestion === quizQuestions.length - 1 ? 'See Results' : 'Next'} 
+                        <i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        function selectQuizOption(value) {
+            quizAnswers[currentQuestion] = value;
+            renderQuizQuestion();
+        }
+
+        function nextQuizQuestion() {
+            if (quizAnswers[currentQuestion] === null) {
+                showToast('Please select an option first!', 'warning');
+                return;
+            }
+            if (currentQuestion < quizQuestions.length - 1) {
+                currentQuestion++;
+                renderQuizQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function prevQuizQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuizQuestion();
+            }
+        }
+
+        function showQuizResults() {
+            const test = testData[currentQuiz];
+            const result = test.calculate(quizAnswers);
+            
+            let resultHtml = '';
+            
+            // ====== DISC RESULTS ======
+            if (currentQuiz === 'disc') {
+                const styles = result;
+                const top = styles[0];
+                resultHtml = `
+                    <div class="text-center result-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4>Your DISC Profile</h4>
+                            <button class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div style="font-size: 4rem;">🎯</div>
+                        <h2 class="mt-2">Your Dominant Style: <span style="color: ${top.color};">${top.name}</span></h2>
+                        <p class="text-secondary mt-2">${top.desc}</p>
+                        <div class="row g-3 mt-3">
+                            ${styles.map(s => `
+                                <div class="col-md-3 col-6">
+                                    <div class="disc-result-card">
+                                        <div class="disc-icon" style="color: ${s.color};">${s.letter}</div>
+                                        <div class="fw-bold small">${s.name}</div>
+                                        <div class="text-secondary small">${Math.round(s.score * 20)}%</div>
+                                        <div class="progress-bar-custom mt-1">
+                                            <div class="progress-fill" style="width: ${Math.round(s.score * 20)}%; background: ${s.color};"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button class="btn btn-gradient mt-4" data-bs-dismiss="modal">
+                            <i class="fas fa-check me-2"></i>Done
+                        </button>
+                    </div>
+                `;
+            }
+            // ====== ENNEAGRAM RESULTS ======
+            else if (currentQuiz === 'enneagram') {
+                const types = result;
+                const top = types[0];
+                resultHtml = `
+                    <div class="text-center result-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4>Your Enneagram Type</h4>
+                            <button class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div style="font-size: 4rem;">🌟</div>
+                        <div class="enneagram-number">${top.number}</div>
+                        <h2 class="mt-2">Type ${top.number}: ${top.name}</h2>
+                        <p class="text-secondary mt-2">${top.desc}</p>
+                        <div class="row g-2 mt-3">
+                            ${types.slice(0, 3).map(t => `
+                                <div class="col-4">
+                                    <div class="enneagram-result">
+                                        <div class="fw-bold">${t.number}</div>
+                                        <div class="text-secondary small">${t.name}</div>
+                                        <div class="text-secondary small">${Math.round((t.score / 12) * 100)}%</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button class="btn btn-gradient mt-4" data-bs-dismiss="modal">
+                            <i class="fas fa-check me-2"></i>Done
+                        </button>
+                    </div>
+                `;
+            }
+            // ====== MBTI RESULTS ======
+            else if (currentQuiz === 'mbti') {
+                const info = test.getResult(result);
+                resultHtml = `
+                    <div class="text-center result-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4>Your MBTI Type</h4>
+                            <button class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <i class="fas fa-trophy text-warning display-1"></i>
+                        <div class="display-1 fw-bold text-gradient">${result}</div>
+                        <p class="text-secondary fs-5 mt-2">${info.desc}</p>
+                        <div class="d-flex flex-wrap gap-2 justify-content-center mt-3">
+                            ${info.traits.map(t => `<span class="badge bg-primary bg-opacity-25 text-light px-3 py-2">✨ ${t}</span>`).join('')}
+                        </div>
+                        <button class="btn btn-gradient mt-4" data-bs-dismiss="modal">
+                            <i class="fas fa-check me-2"></i>Done
+                        </button>
+                    </div>
+                `;
+            }
+            // ====== BIG FIVE RESULTS ======
+            else if (currentQuiz === 'bigfive') {
+                resultHtml = `
+                    <div class="text-center result-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4>Your Big Five Results</h4>
+                            <button class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <i class="fas fa-chart-bar text-primary display-1"></i>
+                        <div class="row g-3 mt-3">
+                            ${result.map(r => `
+                                <div class="col-md-6">
+                                    <div class="glass p-3 rounded-3">
+                                        <h6>${r.trait}</h6>
+                                        <div class="progress-bar-custom">
+                                            <div class="progress-fill" style="width: ${r.score * 20}%;"></div>
+                                        </div>
+                                        <span class="text-secondary small">${r.score}/5</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button class="btn btn-gradient mt-4" data-bs-dismiss="modal">
+                            <i class="fas fa-check me-2"></i>Done
+                        </button>
+                    </div>
+                `;
+            }
+            // ====== OTHER TESTS ======
+            else {
+                resultHtml = `
+                    <div class="text-center result-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4>Your Result</h4>
+                            <button class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <i class="fas fa-check-circle text-success display-1"></i>
+                        <div class="display-6 fw-bold text-gradient mt-3">${result}</div>
+                        <button class="btn btn-gradient mt-4" data-bs-dismiss="modal">
+                            <i class="fas fa-check me-2"></i>Done
+                        </button>
+                    </div>
+                `;
+            }
+
+            document.getElementById('quizContent').innerHTML = resultHtml;
+            
+            // Save to history
+            saveTestResult(currentQuiz, result);
+            loadTestHistory();
+            triggerConfetti();
+        }
+
+        // ====== TEST HISTORY ======
+        function saveTestResult(testId, result) {
+            const history = JSON.parse(localStorage.getItem('testHistory') || '[]');
+            const displayResult = typeof result === 'string' ? result : 
+                                 Array.isArray(result) ? result[0]?.name || JSON.stringify(result) : 
+                                 JSON.stringify(result);
+            history.unshift({
+                test: testData[testId].name,
+                result: displayResult,
+                date: new Date().toLocaleDateString(),
+                id: Date.now()
+            });
+            localStorage.setItem('testHistory', JSON.stringify(history.slice(0, 10)));
+        }
+
+        function loadTestHistory() {
+            const history = JSON.parse(localStorage.getItem('testHistory') || '[]');
+            const container = document.getElementById('testHistory');
+            
+            if (history.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12">
+                        <div class="glass p-4 text-center">
+                            <p class="text-secondary">No test history yet. Take a test to get started!</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = history.map(item => `
+                <div class="col-md-6">
+                    <div class="history-item">
+                        <div>
+                            <strong>${item.test}</strong>
+                            <span class="text-secondary small ms-2">${item.date}</span>
+                            <div class="text-secondary small">Result: ${item.result}</div>
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteHistory(${item.id})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function deleteHistory(id) {
+            let history = JSON.parse(localStorage.getItem('testHistory') || '[]');
+            history = history.filter(item => item.id !== id);
+            localStorage.setItem('testHistory', JSON.stringify(history));
+            loadTestHistory();
+            showToast('History entry deleted!', 'info');
+        }
+
+        // ====== TOAST ======
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: rgba(20,20,40,0.9);
+                backdrop-filter: blur(12px);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 16px;
+                padding: 1rem 1.5rem;
+                color: white;
+                z-index: 9999;
+                animation: slideUp 0.3s ease;
+                max-width: 350px;
+            `;
+            const colors = { success: '#4ade80', warning: '#f59e0b', danger: '#f87171', info: '#60a5fa' };
+            toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : type === 'danger' ? 'times-circle' : 'info-circle'}" style="color:${colors[type]}; margin-right:10px;"></i> ${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
+        }
+
+        // ====== CONFETTI ======
+        function triggerConfetti() {
+            const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4ade80', '#60a5fa'];
+            for (let i = 0; i < 30; i++) {
+                const piece = document.createElement('div');
+                piece.style.cssText = `
+                    position: fixed;
+                    width: ${Math.random() * 8 + 4}px;
+                    height: ${Math.random() * 8 + 4}px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    left: ${Math.random() * 100}vw;
+                    top: -10px;
+                    border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+                    z-index: 9999;
+                    pointer-events: none;
+                    animation: confettiFall ${Math.random() * 2 + 2}s linear forwards;
+                    animation-delay: ${Math.random() * 0.5}s;
+                `;
+                document.body.appendChild(piece);
+                setTimeout(() => piece.remove(), 3000);
+            }
+        }
+
+        // Add animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes confettiFall {
+                0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+                100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+            }
+            @keyframes slideUp {
+                0% { opacity: 0; transform: translateY(20px); }
+                100% { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        console.log('📋 Tests page loaded successfully with fixed DISC and Enneagram tests!');
+    </script>
+</body>
+</html>

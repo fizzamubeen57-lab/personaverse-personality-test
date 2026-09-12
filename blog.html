@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<!-- blog.html -->
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - SoulSync</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Base styles */
+        * { font-family: 'Inter', sans-serif; }
+        body { background: #0b0b1a; color: #f0f0ff; overflow-x: hidden; }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(20, 20, 40, 0.5);
+            backdrop-filter: blur(14px) saturate(180%);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.7);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #c084fc, #f472b6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .navbar-brand i {
+            -webkit-text-fill-color: initial;
+            color: #667eea;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.7) !important;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #ffffff !important;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: rgba(20, 20, 40, 0.5);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer .brand {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer .brand span {
+            color: white;
+        }
+
+        .footer .social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer .social a {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        .footer .social a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .footer .links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .footer .links a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.9rem;
+        }
+
+        .footer .links a:hover {
+            color: #667eea;
+        }
+
+        .footer .divider {
+            border-color: rgba(255, 255, 255, 0.05) !important;
+            margin: 2rem 0 1.5rem;
+        }
+
+        .footer .bottom-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .footer .bottom-text a {
+            color: rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .footer .bottom-text a:hover {
+            color: #667eea;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .btn-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-gradient:hover::before {
+            left: 100%;
+        }
+
+        /* Blog styles */
+        .blog-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+        }
+        .blog-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(102, 126, 234, 0.4);
+            box-shadow: 0 12px 48px rgba(102, 126, 234, 0.12);
+        }
+        .blog-card .blog-image {
+            border-radius: 12px;
+            height: 180px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .blog-card .category {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.8rem;
+            border-radius: 12px;
+            background: rgba(102, 126, 234, 0.15);
+            color: #667eea;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        .blog-card .title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+        .blog-card .excerpt {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .blog-card .meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.3);
+        }
+        .blog-card .meta .author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .blog-card .meta .author .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(102, 126, 234, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: white;
+        }
+        .category-filter {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.6);
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .category-filter:hover, .category-filter.active {
+            background: rgba(102, 126, 234, 0.15);
+            border-color: #667eea;
+            color: white;
+        }
+        .featured-post {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+        .featured-post .badge-featured {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            padding: 0.2rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+        }
+        .blog-detail-modal {
+            background: rgba(20,20,40,0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 2rem;
+            max-height: 80vh;
+            overflow-y: auto;
+            color: #f0f0ff;
+        }
+        .blog-detail-modal .blog-content {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.8;
+        }
+        .blog-detail-modal .blog-content p {
+            margin-bottom: 1rem;
+        }
+        .blog-detail-modal .blog-content ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .blog-detail-modal .blog-content ul li {
+            margin-bottom: 0.5rem;
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+        ::-webkit-scrollbar-thumb { background: #667eea; border-radius: 10px; }
+        
+        .btn-gradient {
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            border: none;
+            color: white;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+        }
+        .btn-gradient:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4);
+            color: white;
+        }
+        .btn-outline-glass {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.8);
+            transition: all 0.3s ease;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+        }
+        .btn-outline-glass:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: scale(1.02);
+        }
+        .modal-content {
+            background: transparent !important;
+            border: none !important;
+        }
+        .btn-close {
+            filter: invert(1);
+        }
+        .text-secondary {
+            color: rgba(255,255,255,0.5) !important;
+        }
+        .form-control {
+            background: rgba(255,255,255,0.05) !important;
+            border-color: rgba(255,255,255,0.1) !important;
+            color: white !important;
+        }
+        .form-control::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+        .form-control:focus {
+            border-color: #667eea !important;
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.1) !important;
+        }
+        .input-group-text {
+            background: rgba(255,255,255,0.05) !important;
+            border-color: rgba(255,255,255,0.1) !important;
+            color: rgba(255,255,255,0.5) !important;
+        }
+        /* Footer */
+        .footer {
+            background: rgba(20, 20, 40, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+        }
+        .footer .brand {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        .footer .brand span {
+            color: white;
+        }
+        .footer .social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .footer .social a {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .footer .social a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        .footer .links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .footer .links a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .footer .links a:hover {
+            color: #667eea;
+        }
+        .footer .divider {
+            border-color: rgba(255, 255, 255, 0.05) !important;
+            margin: 2rem 0 1.5rem;
+        }
+        .footer .bottom-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+        .footer .bottom-text a {
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .footer .bottom-text a:hover {
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-brain me-2"></i>PersonaVerse
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+                <i class="fas fa-bars text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tests.html">Tests</a></li>
+                    <li class="nav-item"><a class="nav-link" href="mbti.html">MBTI</a></li>
+                    <li class="nav-item"><a class="nav-link" href="zodiac.html">Zodiac</a></li>
+                    <li class="nav-item"><a class="nav-link" href="compatibility.html">Compatibility</a></li>
+                    <li class="nav-item"><a class="nav-link" href="games.html">Games</a></li>
+                    <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="settings.html"><i class="fas fa-cog"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MOBILE MENU ===== -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu">
+        <div class="offcanvas-header" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+            <h5 class="offcanvas-title"><i class="fas fa-brain me-2"></i>PersonaVerse</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body" style="background: #0a0a1a;">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="tests.html">Tests</a></li>
+                <li class="nav-item"><a class="nav-link" href="mbti.html">MBTI</a></li>
+                <li class="nav-item"><a class="nav-link" href="zodiac.html">Zodiac</a></li>
+                <li class="nav-item"><a class="nav-link" href="compatibility.html">Compatibility</a></li>
+                <li class="nav-item"><a class="nav-link" href="games.html">Games</a></li>
+                <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ====== BLOG PAGE ====== -->
+    <section class="py-5 mt-5">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h1 class="display-4 fw-bold mb-3">📖 <span class="text-gradient">Blog</span></h1>
+                <p class="text-secondary">Explore insights on personality, psychology, and self-discovery</p>
+            </div>
+
+            <!-- Search -->
+            <div class="row justify-content-center mt-4" data-aos="fade-up">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search articles..." oninput="searchBlog()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="d-flex flex-wrap gap-2 justify-content-center mt-4" data-aos="fade-up">
+                <button class="category-filter active" onclick="filterCategory('all')">📌 All</button>
+                <button class="category-filter" onclick="filterCategory('mbti')">🧠 MBTI</button>
+                <button class="category-filter" onclick="filterCategory('zodiac')">⭐ Zodiac</button>
+                <button class="category-filter" onclick="filterCategory('psychology')">🧘 Psychology</button>
+                <button class="category-filter" onclick="filterCategory('relationships')">💞 Relationships</button>
+                <button class="category-filter" onclick="filterCategory('career')">💼 Career</button>
+                <button class="category-filter" onclick="filterCategory('wellness')">🌿 Wellness</button>
+            </div>
+
+            <!-- Featured Post -->
+            <div class="mt-4" data-aos="fade-up" id="featuredPost">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Blog Grid -->
+            <div class="row g-4 mt-3" id="blogGrid">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Load More -->
+            <div class="text-center mt-4" data-aos="fade-up">
+                <button class="btn btn-outline-glass" onclick="loadMore()" id="loadMoreBtn">
+                    <i class="fas fa-sync-alt me-2"></i>Load More
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== BLOG DETAIL MODAL ====== -->
+    <div class="modal fade" id="blogModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="blog-detail-modal" id="blogDetailContent">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="brand">
+                        <i class="fas fa-brain me-2"></i><span>Persona</span>Verse
+                    </div>
+                    <p class="text-secondary mt-3" style="font-size: 0.9rem; max-width: 300px;">
+                        Discover your true self through personality tests, zodiac insights, and interactive experiences.
+                    </p>
+                    <div class="social">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-spotify"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Explore</h6>
+                    <div class="links">
+                        <a href="tests.html">Tests</a>
+                        <a href="mbti.html">MBTI</a>
+                        <a href="zodiac.html">Zodiac</a>
+                        <a href="games.html">Games</a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Community</h6>
+                    <div class="links">
+                        <a href="leaderboard.html">Leaderboard</a>
+                        <a href="blog.html">Blog</a>
+                        <a href="compatibility.html">Compatibility</a>
+                        <a href="settings.html">Settings</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Stay Updated</h6>
+                    <p class="text-secondary" style="font-size: 0.85rem;">Subscribe to get the latest personality insights and updates.</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Your email" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 50px 0 0 50px; padding: 0.6rem 1rem;">
+                        <button class="btn btn-gradient" style="border-radius: 0 50px 50px 0; padding: 0.6rem 1.2rem;">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr class="divider">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <span class="bottom-text">© 2026 PersonaVerse. All rights reserved.</span>
+                <div class="bottom-text d-flex gap-3">
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Privacy Policy</a>
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Terms of Service</a>
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        // ====== BLOG DATA ======
+        const blogPosts = [
+            {
+                id: 1,
+                title: "Understanding Your MBTI Type: A Complete Guide",
+                excerpt: "Dive deep into the 16 personality types and discover what makes you unique. Learn how to use your MBTI type for personal growth.",
+                category: "mbti",
+                icon: "🧠",
+                author: "Dr. Sarah Chen",
+                date: "Mar 15, 2026",
+                readTime: "8 min read",
+                content: `
+                    <p>The Myers-Briggs Type Indicator (MBTI) is one of the most popular personality frameworks used worldwide. It helps you understand your preferences in how you perceive the world and make decisions.</p>
+                    <p>There are 16 distinct personality types, each with their own strengths and growth areas. Whether you're an INFP (The Mediator) or an ENTJ (The Commander), understanding your type can unlock new levels of self-awareness.</p>
+                    <p>Key benefits of knowing your MBTI type:</p>
+                    <ul>
+                        <li>Better communication with others</li>
+                        <li>Improved career satisfaction</li>
+                        <li>Deeper understanding of your relationships</li>
+                        <li>Personal growth and self-acceptance</li>
+                    </ul>
+                    <p>Take the test today and start your journey of self-discovery!</p>
+                `
+            },
+            {
+                id: 2,
+                title: "Zodiac Signs and Their Hidden Meanings",
+                excerpt: "Explore the deeper meaning behind each zodiac sign and how they influence our personalities, relationships, and life paths.",
+                category: "zodiac",
+                icon: "⭐",
+                author: "Aisha Patel",
+                date: "Mar 12, 2026",
+                readTime: "6 min read",
+                content: `
+                    <p>Astrology has fascinated humanity for thousands of years. Each zodiac sign carries unique energy and symbolism that can provide insight into our personalities.</p>
+                    <p>From the bold fire signs (Aries, Leo, Sagittarius) to the intuitive water signs (Cancer, Scorpio, Pisces), each element brings its own gifts and challenges.</p>
+                    <p>Understanding your zodiac sign can help you:</p>
+                    <ul>
+                        <li>Embrace your natural strengths</li>
+                        <li>Work on your growth areas</li>
+                        <li>Improve your relationships</li>
+                        <li>Find your life's purpose</li>
+                    </ul>
+                    <p>Discover the cosmic wisdom that awaits you!</p>
+                `
+            },
+            {
+                id: 3,
+                title: "Building Stronger Relationships Through Personality",
+                excerpt: "Learn how understanding personality differences can transform your relationships and create deeper connections.",
+                category: "relationships",
+                icon: "💞",
+                author: "Marcus Johnson",
+                date: "Mar 10, 2026",
+                readTime: "5 min read",
+                content: `
+                    <p>Understanding personality differences is key to building and maintaining healthy relationships. Whether it's with a partner, family member, or colleague, knowing each other's personality preferences can prevent conflicts and foster deeper connections.</p>
+                    <p>When you understand someone's natural tendencies, you can approach them with more empathy and patience.</p>
+                    <p>Tips for better relationships:</p>
+                    <ul>
+                        <li>Communicate openly about your needs</li>
+                        <li>Respect each other's differences</li>
+                        <li>Find common ground and shared values</li>
+                        <li>Practice active listening</li>
+                    </ul>
+                    <p>Strong relationships start with understanding!</p>
+                `
+            },
+            {
+                id: 4,
+                title: "The Psychology of Career Success",
+                excerpt: "Discover how your personality type influences your career path and how to align your work with your natural strengths.",
+                category: "career",
+                icon: "💼",
+                author: "Emma Wilson",
+                date: "Mar 8, 2026",
+                readTime: "7 min read",
+                content: `
+                    <p>Choosing the right career path is one of the most important decisions you'll make. Your personality plays a crucial role in determining which careers will bring you the most satisfaction and success.</p>
+                    <p>Different personality types thrive in different work environments. For example, extroverts often excel in social roles while introverts may prefer more independent work.</p>
+                    <p>Key factors to consider:</p>
+                    <ul>
+                        <li>Your natural strengths and skills</li>
+                        <li>Work environment preferences</li>
+                        <li>Your values and priorities</li>
+                        <li>Long-term growth opportunities</li>
+                    </ul>
+                    <p>Find your perfect career match today!</p>
+                `
+            },
+            {
+                id: 5,
+                title: "Mental Wellness Tips for Every Personality",
+                excerpt: "Practical wellness strategies tailored to your personality type for better mental health and overall well-being.",
+                category: "wellness",
+                icon: "🌿",
+                author: "Dr. Maya Rodriguez",
+                date: "Mar 5, 2026",
+                readTime: "6 min read",
+                content: `
+                    <p>Mental wellness is essential for living a fulfilling life. The best part is that different strategies work for different personality types.</p>
+                    <p>Some people find peace in meditation and solitude, while others need social connection and activity to feel balanced.</p>
+                    <p>Wellness tips by type:</p>
+                    <ul>
+                        <li><strong>Introverts:</strong> Schedule alone time for recharging</li>
+                        <li><strong>Extroverts:</strong> Engage in social activities regularly</li>
+                        <li><strong>Thinkers:</strong> Practice emotional awareness</li>
+                        <li><strong>Feelers:</strong> Set healthy emotional boundaries</li>
+                    </ul>
+                    <p>Start your wellness journey today!</p>
+                `
+            },
+            {
+                id: 6,
+                title: "Understanding the Big Five Personality Traits",
+                excerpt: "Explore the five fundamental dimensions of personality and how they shape your behavior and life choices.",
+                category: "psychology",
+                icon: "🧘",
+                author: "Prof. James Park",
+                date: "Mar 3, 2026",
+                readTime: "7 min read",
+                content: `
+                    <p>The Big Five personality traits are the most scientifically validated model for understanding personality. They include Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism.</p>
+                    <p>Each person falls somewhere on a spectrum for each trait, creating a unique personality profile.</p>
+                    <p>Understanding your Big Five profile can help you:</p>
+                    <ul>
+                        <li>Choose careers that fit your nature</li>
+                        <li>Build better relationships</li>
+                        <li>Manage stress more effectively</li>
+                        <li>Develop new skills and habits</li>
+                    </ul>
+                    <p>Take the Big Five test to learn more about yourself!</p>
+                `
+            }
+        ];
+
+        let currentCategory = 'all';
+        let currentFilteredPosts = [...blogPosts];
+        let visibleCount = 4;
+        let blogModal;
+
+        // ====== RENDER BLOG ======
+        function renderBlog() {
+            const grid = document.getElementById('blogGrid');
+            const featured = document.getElementById('featuredPost');
+            
+            // Show featured post (first post)
+            const featuredPost = blogPosts[0];
+            featured.innerHTML = `
+                <div class="featured-post">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <span class="badge-featured">🌟 Featured</span>
+                            <h3 class="mt-2">${featuredPost.icon} ${featuredPost.title}</h3>
+                            <p class="text-secondary">${featuredPost.excerpt}</p>
+                            <div class="d-flex align-items-center gap-3 mt-2">
+                                <span class="text-secondary small"><i class="far fa-user me-1"></i>${featuredPost.author}</span>
+                                <span class="text-secondary small"><i class="far fa-calendar me-1"></i>${featuredPost.date}</span>
+                                <span class="text-secondary small"><i class="far fa-clock me-1"></i>${featuredPost.readTime}</span>
+                            </div>
+                            <button class="btn btn-gradient mt-3" onclick="openBlogDetail(${featuredPost.id})">
+                                Read More <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                        <div style="font-size: 4rem;">${featuredPost.icon}</div>
+                    </div>
+                </div>
+            `;
+
+            // Show blog grid
+            const toShow = currentFilteredPosts.slice(0, visibleCount);
+            
+            if (toShow.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-12">
+                        <div class="glass p-5 text-center rounded-4">
+                            <div style="font-size: 3rem;">🔍</div>
+                            <p class="text-secondary mt-3">No posts found for this category</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = toShow.map(post => `
+                <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                    <div class="blog-card" onclick="openBlogDetail(${post.id})">
+                        <div class="blog-image">${post.icon}</div>
+                        <span class="category">${post.category}</span>
+                        <h6 class="title">${post.title}</h6>
+                        <p class="excerpt">${post.excerpt}</p>
+                        <div class="meta">
+                            <div class="author">
+                                <div class="avatar">${post.author.charAt(0)}</div>
+                                <span>${post.author}</span>
+                            </div>
+                            <span>${post.date}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Show/hide load more
+            const loadBtn = document.getElementById('loadMoreBtn');
+            if (visibleCount >= currentFilteredPosts.length) {
+                loadBtn.style.display = 'none';
+            } else {
+                loadBtn.style.display = 'inline-block';
+            }
+        }
+
+        // ====== FILTER ======
+        function filterCategory(category) {
+            currentCategory = category;
+            document.querySelectorAll('.category-filter').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.category-filter[onclick="filterCategory('${category}')"]`)?.classList.add('active');
+            
+            if (category === 'all') {
+                currentFilteredPosts = [...blogPosts];
+            } else {
+                currentFilteredPosts = blogPosts.filter(p => p.category === category);
+            }
+            
+            visibleCount = 4;
+            renderBlog();
+            showToast(`Filtered: ${category.charAt(0).toUpperCase() + category.slice(1)}`, 'info');
+        }
+
+        // ====== SEARCH ======
+        function searchBlog() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (query.trim() === '') {
+                filterCategory(currentCategory);
+                return;
+            }
+            
+            currentFilteredPosts = blogPosts.filter(p => 
+                p.title.toLowerCase().includes(query) || 
+                p.excerpt.toLowerCase().includes(query) ||
+                p.category.includes(query)
+            );
+            
+            visibleCount = 4;
+            renderBlog();
+        }
+
+        // ====== LOAD MORE ======
+        function loadMore() {
+            visibleCount += 4;
+            renderBlog();
+        }
+
+        // ====== BLOG DETAIL ======
+        function openBlogDetail(id) {
+            const post = blogPosts.find(p => p.id === id);
+            if (!post) return;
+            
+            if (!blogModal) {
+                blogModal = new bootstrap.Modal(document.getElementById('blogModal'));
+            }
+            
+            const content = document.getElementById('blogDetailContent');
+            content.innerHTML = `
+                <div class="d-flex justify-content-between align-items-start mb-4">
+                    <div>
+                        <div style="font-size: 2.5rem;">${post.icon}</div>
+                        <h2 class="mt-2">${post.title}</h2>
+                        <div class="d-flex align-items-center gap-3 text-secondary small">
+                            <span><i class="far fa-user me-1"></i>${post.author}</span>
+                            <span><i class="far fa-calendar me-1"></i>${post.date}</span>
+                            <span><i class="far fa-clock me-1"></i>${post.readTime}</span>
+                            <span class="badge bg-primary bg-opacity-25 text-light">${post.category}</span>
+                        </div>
+                    </div>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="blog-content">
+                    ${post.content}
+                </div>
+                <div class="mt-4 d-flex gap-2">
+                    <button class="btn btn-outline-glass btn-sm" onclick="shareBlog('${post.title}')">
+                        <i class="fas fa-share-alt me-1"></i>Share
+                    </button>
+                    <button class="btn btn-outline-glass btn-sm" onclick="bookmarkBlog(${post.id})">
+                        <i class="fas fa-bookmark me-1"></i>Bookmark
+                    </button>
+                </div>
+            `;
+            
+            blogModal.show();
+        }
+
+        // ====== SHARE ======
+        function shareBlog(title) {
+            const text = `📖 Just read "${title}" on SoulSync Blog! Check it out ✨`;
+            if (navigator.share) {
+                navigator.share({ title: 'SoulSync Blog', text: text }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(text);
+                showToast('Post link copied to clipboard! 📋', 'success');
+            }
+        }
+
+        // ====== BOOKMARK ======
+        function bookmarkBlog(id) {
+            let bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+            if (bookmarks.includes(id)) {
+                bookmarks = bookmarks.filter(b => b !== id);
+                showToast('Bookmark removed!', 'info');
+            } else {
+                bookmarks.push(id);
+                showToast('Bookmarked! 📑', 'success');
+            }
+            localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        }
+
+        // ====== TOAST ======
+        function showToast(message, type = 'info') {
+            // Remove existing toasts
+            const existing = document.querySelectorAll('.toast-custom');
+            existing.forEach(t => t.remove());
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-custom';
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: rgba(20,20,40,0.95);
+                backdrop-filter: blur(12px);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 16px;
+                padding: 1rem 1.5rem;
+                color: white;
+                z-index: 9999;
+                animation: slideUp 0.3s ease;
+                max-width: 350px;
+                box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+            `;
+            const colors = { success: '#4ade80', warning: '#f59e0b', danger: '#f87171', info: '#60a5fa' };
+            const icons = { success: 'check-circle', warning: 'exclamation-triangle', danger: 'times-circle', info: 'info-circle' };
+            toast.innerHTML = `<i class="fas fa-${icons[type] || 'info-circle'}" style="color:${colors[type] || '#60a5fa'}; margin-right:10px;"></i> ${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
+        }
+
+        // ====== INIT ======
+        document.addEventListener('DOMContentLoaded', () => {
+            renderBlog();
+        });
+
+        // Add animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideUp {
+                0% { opacity: 0; transform: translateY(20px); }
+                100% { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        console.log('📖 Blog page loaded successfully!');
+    </script>
+</body>
+</html>

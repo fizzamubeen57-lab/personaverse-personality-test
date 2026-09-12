@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<!-- leaderboard.html -->
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - SoulSync</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .leaderboard-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+        .leaderboard-card:hover {
+            transform: translateX(6px);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+        .leaderboard-card .rank {
+            font-size: 1.5rem;
+            font-weight: 800;
+            min-width: 50px;
+            color: rgba(255,255,255,0.3);
+        }
+        .leaderboard-card .rank.gold { color: #fbbf24; }
+        .leaderboard-card .rank.silver { color: #9ca3af; }
+        .leaderboard-card .rank.bronze { color: #d97706; }
+        .leaderboard-card .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: rgba(102, 126, 234, 0.15);
+            border: 2px solid rgba(102, 126, 234, 0.2);
+        }
+        .leaderboard-card .user-info {
+            flex: 1;
+        }
+        .leaderboard-card .user-info .name {
+            font-weight: 600;
+        }
+        .leaderboard-card .user-info .detail {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+        }
+        .leaderboard-card .score {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #667eea;
+        }
+        .leaderboard-card .badge-icon {
+            font-size: 1.2rem;
+            margin-left: 0.5rem;
+        }
+        .filter-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.6);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: rgba(102, 126, 234, 0.15);
+            border-color: #667eea;
+            color: white;
+        }
+        .achievement-badge {
+            background: rgba(251, 191, 36, 0.15);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            padding: 0.2rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            color: #fbbf24;
+        }
+        .level-progress {
+            height: 4px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.08);
+            overflow: hidden;
+            width: 100px;
+        }
+        .level-progress .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .navbar-brand i {
+            -webkit-text-fill-color: initial;
+            color: #667eea;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.7) !important;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #ffffff !important;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: rgba(20, 20, 40, 0.5);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer .brand {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer .brand span {
+            color: white;
+        }
+
+        .footer .social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer .social a {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        .footer .social a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .footer .links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .footer .links a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.9rem;
+        }
+
+        .footer .links a:hover {
+            color: #667eea;
+        }
+
+        .footer .divider {
+            border-color: rgba(255, 255, 255, 0.05) !important;
+            margin: 2rem 0 1.5rem;
+        }
+
+        .footer .bottom-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .footer .bottom-text a {
+            color: rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .footer .bottom-text a:hover {
+            color: #667eea;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .btn-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-gradient:hover::before {
+            left: 100%;
+        }
+    </style>
+</head>
+<body>
+  
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-brain me-2"></i>PersonaVerse
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+                <i class="fas fa-bars text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tests.html">Tests</a></li>
+                    <li class="nav-item"><a class="nav-link" href="mbti.html">MBTI</a></li>
+                    <li class="nav-item"><a class="nav-link" href="zodiac.html">Zodiac</a></li>
+                    <li class="nav-item"><a class="nav-link" href="compatibility.html">Compatibility</a></li>
+                    <li class="nav-item"><a class="nav-link" href="games.html">Games</a></li>
+                    <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="settings.html"><i class="fas fa-cog"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MOBILE MENU ===== -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu">
+        <div class="offcanvas-header" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+            <h5 class="offcanvas-title"><i class="fas fa-brain me-2"></i>PersonaVerse</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body" style="background: #0a0a1a;">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="tests.html">Tests</a></li>
+                <li class="nav-item"><a class="nav-link" href="mbti.html">MBTI</a></li>
+                <li class="nav-item"><a class="nav-link" href="zodiac.html">Zodiac</a></li>
+                <li class="nav-item"><a class="nav-link" href="compatibility.html">Compatibility</a></li>
+                <li class="nav-item"><a class="nav-link" href="games.html">Games</a></li>
+                <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ====== LEADERBOARD PAGE ====== -->
+    <section class="py-5 mt-5">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h1 class="display-4 fw-bold mb-3">🏆 <span class="text-gradient">Leaderboard</span></h1>
+                <p class="text-secondary">See who's leading the personality exploration journey</p>
+            </div>
+
+            <!-- Stats -->
+            <div class="row g-3 mt-3" data-aos="fade-up">
+                <div class="col-md-3 col-6">
+                    <div class="glass p-3 text-center rounded-3">
+                        <div class="h2 text-primary">1,234</div>
+                        <div class="text-secondary small">Total Users</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="glass p-3 text-center rounded-3">
+                        <div class="h2 text-success">45.2k</div>
+                        <div class="text-secondary small">Tests Taken</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="glass p-3 text-center rounded-3">
+                        <div class="h2 text-warning">892</div>
+                        <div class="text-secondary small">Daily Active</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="glass p-3 text-center rounded-3">
+                        <div class="h2 text-info">3.2k</div>
+                        <div class="text-secondary small">Achievements</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="d-flex flex-wrap gap-2 mt-4" data-aos="fade-up">
+                <button class="filter-btn active" onclick="filterLeaderboard('all')">🏅 All</button>
+                <button class="filter-btn" onclick="filterLeaderboard('mbti')">🧠 MBTI</button>
+                <button class="filter-btn" onclick="filterLeaderboard('zodiac')">⭐ Zodiac</button>
+                <button class="filter-btn" onclick="filterLeaderboard('games')">🎮 Games</button>
+                <button class="filter-btn" onclick="filterLeaderboard('tests')">📋 Tests</button>
+                <button class="filter-btn" onclick="filterLeaderboard('weekly')">📅 Weekly</button>
+                <button class="filter-btn" onclick="filterLeaderboard('monthly')">📆 Monthly</button>
+            </div>
+
+            <!-- Leaderboard -->
+            <div class="mt-4" id="leaderboardContainer" data-aos="fade-up">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Your Rank -->
+            <div class="mt-4" data-aos="fade-up">
+                <h5 class="mb-3"><i class="fas fa-user me-2"></i>Your Rank</h5>
+                <div class="glass p-4 rounded-4" id="yourRank">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Achievements -->
+            <div class="mt-5" data-aos="fade-up">
+                <h3 class="mb-3">🎯 <span class="text-gradient">Achievements</span></h3>
+                <div class="row g-3" id="achievementsContainer">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="brand">
+                        <i class="fas fa-brain me-2"></i><span>Persona</span>Verse
+                    </div>
+                    <p class="text-secondary mt-3" style="font-size: 0.9rem; max-width: 300px;">
+                        Discover your true self through personality tests, zodiac insights, and interactive experiences.
+                    </p>
+                    <div class="social">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-spotify"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Explore</h6>
+                    <div class="links">
+                        <a href="tests.html">Tests</a>
+                        <a href="mbti.html">MBTI</a>
+                        <a href="zodiac.html">Zodiac</a>
+                        <a href="games.html">Games</a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Community</h6>
+                    <div class="links">
+                        <a href="leaderboard.html">Leaderboard</a>
+                        <a href="blog.html">Blog</a>
+                        <a href="compatibility.html">Compatibility</a>
+                        <a href="settings.html">Settings</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Stay Updated</h6>
+                    <p class="text-secondary" style="font-size: 0.85rem;">Subscribe to get the latest personality insights and updates.</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Your email" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 50px 0 0 50px; padding: 0.6rem 1rem;">
+                        <button class="btn btn-gradient" style="border-radius: 0 50px 50px 0; padding: 0.6rem 1.2rem;">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr class="divider">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <span class="bottom-text">© 2026 PersonaVerse. All rights reserved.</span>
+                <div class="bottom-text d-flex gap-3">
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Privacy Policy</a>
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Terms of Service</a>
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        // ====== LEADERBOARD DATA ======
+        const users = [
+            { name: "Sarah Chen", avatar: "🌟", mbti: "INFP", zodiac: "Pisces", score: 2850, level: 24, badges: ["🧠", "⭐", "🎮", "📋"] },
+            { name: "Marcus Johnson", avatar: "🔥", mbti: "ENTJ", zodiac: "Aries", score: 2720, level: 23, badges: ["🧠", "⭐", "🏆"] },
+            { name: "Aisha Patel", avatar: "🌸", mbti: "ENFJ", zodiac: "Cancer", score: 2680, level: 22, badges: ["📋", "⭐", "🎮"] },
+            { name: "Ethan Williams", avatar: "⚡", mbti: "INTJ", zodiac: "Capricorn", score: 2550, level: 21, badges: ["🧠", "⭐", "📋"] },
+            { name: "Maya Rodriguez", avatar: "🌺", mbti: "ENFP", zodiac: "Gemini", score: 2410, level: 20, badges: ["🎮", "⭐", "🧠"] },
+            { name: "James Park", avatar: "🎯", mbti: "ISTJ", zodiac: "Virgo", score: 2380, level: 19, badges: ["📋", "🧠"] },
+            { name: "Zara Ahmed", avatar: "✨", mbti: "INFJ", zodiac: "Scorpio", score: 2250, level: 18, badges: ["⭐", "🧠", "🏆"] },
+            { name: "Oliver Smith", avatar: "💪", mbti: "ESTP", zodiac: "Sagittarius", score: 2120, level: 17, badges: ["🎮", "📋"] },
+            { name: "Emma Wilson", avatar: "🎨", mbti: "ISFP", zodiac: "Taurus", score: 2050, level: 16, badges: ["⭐", "🧠"] },
+            { name: "Liam O'Brien", avatar: "🌟", mbti: "ENFP", zodiac: "Libra", score: 1980, level: 15, badges: ["📋", "🎮"] }
+        ];
+
+        const achievements = [
+            { icon: "🧠", name: "MBTI Master", desc: "Completed all MBTI tests", color: "#667eea" },
+            { icon: "⭐", name: "Zodiac Explorer", desc: "Discovered all zodiac signs", color: "#f59e0b" },
+            { icon: "🎮", name: "Game Champion", desc: "Won 50 games", color: "#4ade80" },
+            { icon: "📋", name: "Test Taker", desc: "Completed 20 tests", color: "#60a5fa" },
+            { icon: "💞", name: "Love Guru", desc: "Checked 100 compatibilities", color: "#f472b6" },
+            { icon: "🏆", name: "Top Performer", desc: "Reached level 20", color: "#fbbf24" },
+            { icon: "🔥", name: "Streak Master", desc: "30 day streak", color: "#fb7185" },
+            { icon: "📚", name: "Knowledge Seeker", desc: "Read 50 blog posts", color: "#a78bfa" }
+        ];
+
+        let currentFilter = 'all';
+
+        // ====== RENDER LEADERBOARD ======
+        function renderLeaderboard(filter = 'all') {
+            const container = document.getElementById('leaderboardContainer');
+            let filtered = [...users];
+
+            if (filter === 'weekly') {
+                filtered = filtered.map(u => ({ ...u, score: Math.floor(u.score * 0.3) })).sort((a, b) => b.score - a.score);
+            } else if (filter === 'monthly') {
+                filtered = filtered.map(u => ({ ...u, score: Math.floor(u.score * 0.6) })).sort((a, b) => b.score - a.score);
+            } else if (filter === 'mbti') {
+                filtered = filtered.filter(u => u.badges.includes('🧠')).sort((a, b) => b.score - a.score);
+            } else if (filter === 'zodiac') {
+                filtered = filtered.filter(u => u.badges.includes('⭐')).sort((a, b) => b.score - a.score);
+            } else if (filter === 'games') {
+                filtered = filtered.filter(u => u.badges.includes('🎮')).sort((a, b) => b.score - a.score);
+            } else if (filter === 'tests') {
+                filtered = filtered.filter(u => u.badges.includes('📋')).sort((a, b) => b.score - a.score);
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="glass p-5 text-center rounded-4">
+                        <div style="font-size: 3rem;">🔍</div>
+                        <p class="text-secondary mt-3">No users found for this category</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map((user, index) => {
+                const rank = index + 1;
+                let rankClass = '';
+                if (rank === 1) rankClass = 'gold';
+                else if (rank === 2) rankClass = 'silver';
+                else if (rank === 3) rankClass = 'bronze';
+                
+                const badges = user.badges.map(b => `<span class="badge-icon">${b}</span>`).join('');
+                
+                return `
+                    <div class="leaderboard-card mb-2">
+                        <div class="rank ${rankClass}">#${rank}</div>
+                        <div class="avatar">${user.avatar}</div>
+                        <div class="user-info">
+                            <div class="name">${user.name} ${badges}</div>
+                            <div class="detail">${user.mbti} · ${user.zodiac} · Level ${user.level}</div>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="level-progress">
+                                <div class="progress-fill" style="width: ${(user.level % 5) * 20}%;"></div>
+                            </div>
+                            <div class="score">${user.score.toLocaleString()} XP</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ====== YOUR RANK ======
+        function renderYourRank() {
+            const container = document.getElementById('yourRank');
+            // Simulate current user (you)
+            const yourUser = {
+                name: "You",
+                avatar: "🧠",
+                mbti: "INFJ",
+                zodiac: "Leo",
+                score: 1850,
+                level: 14,
+                badges: ["🧠", "⭐", "🎮"]
+            };
+            
+            // Find your position
+            const allScores = users.map(u => u.score);
+            allScores.push(yourUser.score);
+            allScores.sort((a, b) => b - a);
+            const rank = allScores.indexOf(yourUser.score) + 1;
+            
+            const badges = yourUser.badges.map(b => `<span class="badge-icon">${b}</span>`).join('');
+            
+            container.innerHTML = `
+                <div class="d-flex align-items-center gap-4">
+                    <div class="avatar" style="width: 60px; height: 60px; font-size: 2rem; background: rgba(102, 126, 234, 0.2); border-color: #667eea;">
+                        ${yourUser.avatar}
+                    </div>
+                    <div class="flex-1">
+                        <div class="d-flex align-items-center gap-2">
+                            <strong>${yourUser.name}</strong>
+                            <span class="achievement-badge">#${rank}</span>
+                            ${badges}
+                        </div>
+                        <div class="text-secondary small">${yourUser.mbti} · ${yourUser.zodiac} · Level ${yourUser.level}</div>
+                        <div class="d-flex align-items-center gap-3 mt-1">
+                            <div class="level-progress" style="width: 150px;">
+                                <div class="progress-fill" style="width: ${(yourUser.level % 5) * 20}%;"></div>
+                            </div>
+                            <span class="text-primary fw-bold">${yourUser.score.toLocaleString()} XP</span>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <div class="text-secondary small">Next Level</div>
+                        <div class="text-secondary small">${Math.floor((yourUser.level % 5) * 20)}%</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ====== RENDER ACHIEVEMENTS ======
+        function renderAchievements() {
+            const container = document.getElementById('achievementsContainer');
+            // Simulate unlocked achievements (first 5)
+            const unlocked = achievements.slice(0, 5);
+            const locked = achievements.slice(5);
+            
+            container.innerHTML = [
+                ...unlocked.map(a => `
+                    <div class="col-md-3 col-6">
+                        <div class="glass p-3 text-center rounded-3">
+                            <div style="font-size: 2.5rem;">${a.icon}</div>
+                            <div class="fw-bold small">${a.name}</div>
+                            <div class="text-secondary small">${a.desc}</div>
+                            <span class="badge bg-success bg-opacity-25 text-success mt-1">Unlocked</span>
+                        </div>
+                    </div>
+                `),
+                ...locked.map(a => `
+                    <div class="col-md-3 col-6">
+                        <div class="glass p-3 text-center rounded-3" style="opacity: 0.4;">
+                            <div style="font-size: 2.5rem;">${a.icon}</div>
+                            <div class="fw-bold small">${a.name}</div>
+                            <div class="text-secondary small">${a.desc}</div>
+                            <span class="badge bg-secondary bg-opacity-25 text-secondary mt-1">Locked</span>
+                        </div>
+                    </div>
+                `)
+            ].join('');
+        }
+
+        // ====== FILTER ======
+        function filterLeaderboard(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.filter-btn[onclick="filterLeaderboard('${filter}')"]`)?.classList.add('active');
+            renderLeaderboard(filter);
+            showToast(`Filtered: ${filter.charAt(0).toUpperCase() + filter.slice(1)}`, 'info');
+        }
+
+        // ====== TOAST ======
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: rgba(20,20,40,0.9);
+                backdrop-filter: blur(12px);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 16px;
+                padding: 1rem 1.5rem;
+                color: white;
+                z-index: 9999;
+                animation: slideUp 0.3s ease;
+                max-width: 350px;
+            `;
+            const colors = { success: '#4ade80', warning: '#f59e0b', danger: '#f87171', info: '#60a5fa' };
+            toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : type === 'danger' ? 'times-circle' : 'info-circle'}" style="color:${colors[type]}; margin-right:10px;"></i> ${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
+        }
+
+        // ====== INIT ======
+        document.addEventListener('DOMContentLoaded', () => {
+            renderLeaderboard('all');
+            renderYourRank();
+            renderAchievements();
+        });
+
+        // Add animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideUp {
+                0% { opacity: 0; transform: translateY(20px); }
+                100% { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        console.log('🏆 Leaderboard page loaded successfully!');
+    </script>
+</body>
+</html>

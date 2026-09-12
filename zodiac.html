@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<!-- zodiac.html -->
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zodiac & Astrology - SoulSync</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Base styles */
+        * { font-family: 'Inter', sans-serif; }
+        body { background: #0b0b1a; color: #f0f0ff; overflow-x: hidden; }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(20, 20, 40, 0.5);
+            backdrop-filter: blur(14px) saturate(180%);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.7);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #c084fc, #f472b6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .navbar-brand i {
+            -webkit-text-fill-color: initial;
+            color: #667eea;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.7) !important;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #ffffff !important;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: rgba(20, 20, 40, 0.5);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer .brand {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer .brand span {
+            color: white;
+        }
+
+        .footer .social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer .social a {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        .footer .social a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .footer .links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .footer .links a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.9rem;
+        }
+
+        .footer .links a:hover {
+            color: #667eea;
+        }
+
+        .footer .divider {
+            border-color: rgba(255, 255, 255, 0.05) !important;
+            margin: 2rem 0 1.5rem;
+        }
+
+        .footer .bottom-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .footer .bottom-text a {
+            color: rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .footer .bottom-text a:hover {
+            color: #667eea;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .btn-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-gradient:hover::before {
+            left: 100%;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+            background: rgba(102, 126, 234, 0.15);
+        }
+
+        /* Zodiac styles */
+        .zodiac-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+        }
+        .zodiac-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(102, 126, 234, 0.4);
+            box-shadow: 0 12px 48px rgba(102, 126, 234, 0.12);
+        }
+        .zodiac-card .symbol {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+        .zodiac-result {
+            animation: fadeUp 0.5s ease;
+        }
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .compatibility-badge {
+            background: rgba(74, 222, 128, 0.15);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            color: #4ade80;
+            font-size: 0.9rem;
+        }
+        .detail-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .detail-card .label {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+        }
+        .detail-card .value {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            border: none;
+            color: white;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+        }
+        .btn-gradient:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4);
+            color: white;
+        }
+        .btn-outline-glass {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.8);
+            transition: all 0.3s ease;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+        }
+        .btn-outline-glass:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: scale(1.02);
+        }
+        .form-control, .form-select {
+            background: rgba(255,255,255,0.05) !important;
+            border-color: rgba(255,255,255,0.1) !important;
+            color: white !important;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea !important;
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.1) !important;
+        }
+        .form-control::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+        .form-select option {
+            background: #1a1a3e;
+            color: white;
+        }
+        .text-secondary {
+            color: rgba(255,255,255,0.5) !important;
+        }
+        footer {
+            border-top-color: rgba(255,255,255,0.05) !important;
+        }
+        /* Footer */
+        .footer {
+            background: rgba(20, 20, 40, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+        }
+        .footer .brand {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        .footer .brand span {
+            color: white;
+        }
+        .footer .social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .footer .social a {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .footer .social a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        .footer .links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .footer .links a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .footer .links a:hover {
+            color: #667eea;
+        }
+        .footer .divider {
+            border-color: rgba(255, 255, 255, 0.05) !important;
+            margin: 2rem 0 1.5rem;
+        }
+        .footer .bottom-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+        .footer .bottom-text a {
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .footer .bottom-text a:hover {
+            color: #667eea;
+        }
+        .toast-custom {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(20,20,40,0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            color: white;
+            z-index: 9999;
+            animation: slideUp 0.3s ease;
+            max-width: 350px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+        }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        .confetti-piece {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            z-index: 9998;
+            animation: confettiFall linear forwards;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-brain me-2"></i>PersonaVerse
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+                <i class="fas fa-bars text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tests.html">Tests</a></li>
+                    <li class="nav-item"><a class="nav-link" href="mbti.html">MBTI</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="zodiac.html">Zodiac</a></li>
+                    <li class="nav-item"><a class="nav-link" href="compatibility.html">Compatibility</a></li>
+                    <li class="nav-item"><a class="nav-link" href="games.html">Games</a></li>
+                    <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="settings.html"><i class="fas fa-cog"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MOBILE MENU ===== -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu">
+        <div class="offcanvas-header" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+            <h5 class="offcanvas-title"><i class="fas fa-brain me-2"></i>PersonaVerse</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body" style="background: #0a0a1a;">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="tests.html">Tests</a></li>
+                <li class="nav-item"><a class="nav-link" href="mbti.html">MBTI</a></li>
+                <li class="nav-item"><a class="nav-link" href="zodiac.html">Zodiac</a></li>
+                <li class="nav-item"><a class="nav-link" href="compatibility.html">Compatibility</a></li>
+                <li class="nav-item"><a class="nav-link" href="games.html">Games</a></li>
+                <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ====== ZODIAC PAGE ====== -->
+    <section class="py-5 mt-5">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h1 class="display-4 fw-bold mb-3">Zodiac & <span class="text-gradient">Astrology</span></h1>
+                <p class="text-secondary">Discover your zodiac sign, Chinese zodiac, and cosmic personality</p>
+            </div>
+
+            <!-- Birth Date Input -->
+            <div class="row justify-content-center mt-4" data-aos="fade-up">
+                <div class="col-lg-6">
+                    <div class="glass p-4 rounded-4">
+                        <h5 class="mb-3"><i class="fas fa-calendar-alt me-2"></i>Enter Your Birth Date</h5>
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <input type="date" class="form-control" id="birthDate">
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-gradient w-100" onclick="calculateZodiac()">
+                                    <i class="fas fa-star me-2"></i>Discover
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div id="zodiacResults" class="mt-4" style="display:none;"></div>
+
+            <!-- All Zodiac Signs -->
+            <div class="mt-5" data-aos="fade-up">
+                <h3 class="mb-3">All <span class="text-gradient">Zodiac Signs</span></h3>
+                <div class="row g-3" id="zodiacGrid">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Compatibility Checker -->
+            <div class="mt-5" data-aos="fade-up">
+                <h3 class="mb-3"><i class="fas fa-heart text-danger me-2"></i>Zodiac <span class="text-gradient">Compatibility</span></h3>
+                <div class="row g-3">
+                    <div class="col-md-5">
+                        <select class="form-select" id="compatSign1">
+                            <option value="">Select first sign</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 text-center d-flex align-items-center justify-content-center">
+                        <span style="font-size: 2rem;">❤️</span>
+                    </div>
+                    <div class="col-md-5">
+                        <select class="form-select" id="compatSign2">
+                            <option value="">Select second sign</option>
+                        </select>
+                    </div>
+                    <div class="col-12 text-center mt-3">
+                        <button class="btn btn-gradient" onclick="checkCompatibility()">
+                            <i class="fas fa-heart me-2"></i>Check Compatibility
+                        </button>
+                    </div>
+                    <div id="compatResult" class="col-12 text-center mt-3"></div>
+                </div>
+            </div>
+
+            <!-- Zodiac History -->
+            <div class="mt-5" data-aos="fade-up">
+                <h3 class="mb-3"><i class="fas fa-history me-2"></i>Your Zodiac History</h3>
+                <div id="zodiacHistory" class="row g-3">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="brand">
+                        <i class="fas fa-brain me-2"></i><span>Persona</span>Verse
+                    </div>
+                    <p class="text-secondary mt-3" style="font-size: 0.9rem; max-width: 300px;">
+                        Discover your true self through personality tests, zodiac insights, and interactive experiences.
+                    </p>
+                    <div class="social">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-spotify"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Explore</h6>
+                    <div class="links">
+                        <a href="tests.html">Tests</a>
+                        <a href="mbti.html">MBTI</a>
+                        <a href="zodiac.html">Zodiac</a>
+                        <a href="games.html">Games</a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Community</h6>
+                    <div class="links">
+                        <a href="leaderboard.html">Leaderboard</a>
+                        <a href="blog.html">Blog</a>
+                        <a href="compatibility.html">Compatibility</a>
+                        <a href="settings.html">Settings</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Stay Updated</h6>
+                    <p class="text-secondary" style="font-size: 0.85rem;">Subscribe to get the latest personality insights and updates.</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Your email" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 50px 0 0 50px; padding: 0.6rem 1rem;">
+                        <button class="btn btn-gradient" style="border-radius: 0 50px 50px 0; padding: 0.6rem 1.2rem;">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr class="divider">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <span class="bottom-text">© 2026 PersonaVerse. All rights reserved.</span>
+                <div class="bottom-text d-flex gap-3">
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Privacy Policy</a>
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Terms of Service</a>
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        // ====== ZODIAC DATA ======
+        const zodiacData = {
+            "Aries": { 
+                symbol: "♈", dates: "Mar 21 – Apr 19", element: "Fire", 
+                personality: "Bold, ambitious, and energetic. Natural leaders who love challenges and new adventures.",
+                luckyColor: "#FF4444", luckyNumber: "7", luckyDay: "Tuesday", gemstone: "Diamond",
+                compatibility: ["Leo", "Sagittarius", "Gemini", "Aquarius"]
+            },
+            "Taurus": { 
+                symbol: "♉", dates: "Apr 20 – May 20", element: "Earth",
+                personality: "Patient, reliable, and practical. Love comfort, luxury, and stability in life.",
+                luckyColor: "#4CAF50", luckyNumber: "6", luckyDay: "Friday", gemstone: "Emerald",
+                compatibility: ["Virgo", "Capricorn", "Cancer", "Pisces"]
+            },
+            "Gemini": { 
+                symbol: "♊", dates: "May 21 – Jun 20", element: "Air",
+                personality: "Curious, adaptable, and witty. Great communicators who love learning and socializing.",
+                luckyColor: "#FFEB3B", luckyNumber: "5", luckyDay: "Wednesday", gemstone: "Agate",
+                compatibility: ["Libra", "Aquarius", "Aries", "Leo"]
+            },
+            "Cancer": { 
+                symbol: "♋", dates: "Jun 21 – Jul 22", element: "Water",
+                personality: "Nurturing, sensitive, and intuitive. Deeply emotional and protective of loved ones.",
+                luckyColor: "#Silver", luckyNumber: "2", luckyDay: "Monday", gemstone: "Moonstone",
+                compatibility: ["Scorpio", "Pisces", "Taurus", "Virgo"]
+            },
+            "Leo": { 
+                symbol: "♌", dates: "Jul 23 – Aug 22", element: "Fire",
+                personality: "Confident, generous, and charismatic. Natural performers who love to shine.",
+                luckyColor: "#FFD700", luckyNumber: "1", luckyDay: "Sunday", gemstone: "Ruby",
+                compatibility: ["Aries", "Sagittarius", "Gemini", "Libra"]
+            },
+            "Virgo": { 
+                symbol: "♍", dates: "Aug 23 – Sep 22", element: "Earth",
+                personality: "Analytical, practical, and detail-oriented. Perfectionists with a servant's heart.",
+                luckyColor: "#8BC34A", luckyNumber: "4", luckyDay: "Wednesday", gemstone: "Sapphire",
+                compatibility: ["Taurus", "Capricorn", "Cancer", "Scorpio"]
+            },
+            "Libra": { 
+                symbol: "♎", dates: "Sep 23 – Oct 22", element: "Air",
+                personality: "Diplomatic, charming, and fair-minded. Love harmony, beauty, and balance.",
+                luckyColor: "#FF9800", luckyNumber: "3", luckyDay: "Friday", gemstone: "Opal",
+                compatibility: ["Gemini", "Aquarius", "Leo", "Sagittarius"]
+            },
+            "Scorpio": { 
+                symbol: "♏", dates: "Oct 23 – Nov 21", element: "Water",
+                personality: "Passionate, resourceful, and mysterious. Deeply intense and fiercely loyal.",
+                luckyColor: "#9C27B0", luckyNumber: "8", luckyDay: "Tuesday", gemstone: "Topaz",
+                compatibility: ["Cancer", "Pisces", "Virgo", "Capricorn"]
+            },
+            "Sagittarius": { 
+                symbol: "♐", dates: "Nov 22 – Dec 21", element: "Fire",
+                personality: "Adventurous, optimistic, and philosophical. Freedom lovers who seek truth and meaning.",
+                luckyColor: "#2196F3", luckyNumber: "9", luckyDay: "Thursday", gemstone: "Turquoise",
+                compatibility: ["Aries", "Leo", "Libra", "Aquarius"]
+            },
+            "Capricorn": { 
+                symbol: "♑", dates: "Dec 22 – Jan 19", element: "Earth",
+                personality: "Disciplined, ambitious, and practical. Natural achievers who climb to the top.",
+                luckyColor: "#795548", luckyNumber: "10", luckyDay: "Saturday", gemstone: "Garnet",
+                compatibility: ["Taurus", "Virgo", "Scorpio", "Pisces"]
+            },
+            "Aquarius": { 
+                symbol: "♒", dates: "Jan 20 – Feb 18", element: "Air",
+                personality: "Innovative, humanitarian, and eccentric. Visionaries who think outside the box.",
+                luckyColor: "#00BCD4", luckyNumber: "11", luckyDay: "Saturday", gemstone: "Amethyst",
+                compatibility: ["Gemini", "Libra", "Aries", "Sagittarius"]
+            },
+            "Pisces": { 
+                symbol: "♓", dates: "Feb 19 – Mar 20", element: "Water",
+                personality: "Empathetic, artistic, and intuitive. Dreamers with deep emotional intelligence.",
+                luckyColor: "#3F51B5", luckyNumber: "12", luckyDay: "Thursday", gemstone: "Aquamarine",
+                compatibility: ["Cancer", "Scorpio", "Taurus", "Capricorn"]
+            }
+        };
+
+        const chineseZodiac = ['Monkey', 'Rooster', 'Dog', 'Pig', 'Rat', 'Ox', 'Tiger', 'Rabbit', 'Dragon', 'Snake', 'Horse', 'Goat'];
+
+        // ====== CALCULATE ZODIAC ======
+        function calculateZodiac() {
+            const dateInput = document.getElementById('birthDate').value;
+            if (!dateInput) {
+                showToast('Please select your birth date!', 'warning');
+                return;
+            }
+
+            const birthDate = new Date(dateInput);
+            const month = birthDate.getMonth() + 1;
+            const day = birthDate.getDate();
+            const year = birthDate.getFullYear();
+
+            // Western Zodiac
+            let sign = '';
+            if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) sign = 'Aries';
+            else if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) sign = 'Taurus';
+            else if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) sign = 'Gemini';
+            else if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) sign = 'Cancer';
+            else if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) sign = 'Leo';
+            else if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) sign = 'Virgo';
+            else if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) sign = 'Libra';
+            else if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) sign = 'Scorpio';
+            else if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) sign = 'Sagittarius';
+            else if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) sign = 'Capricorn';
+            else if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) sign = 'Aquarius';
+            else if ((month === 2 && day >= 19) || (month === 3 && day <= 20)) sign = 'Pisces';
+
+            // Chinese Zodiac
+            const chineseSign = chineseZodiac[year % 12];
+
+            // Get data
+            const data = zodiacData[sign];
+            if (!data) { showToast('Invalid date!', 'danger'); return; }
+
+            // Display results
+            const resultsDiv = document.getElementById('zodiacResults');
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = `
+                <div class="glass p-4 rounded-4 zodiac-result">
+                    <div class="text-center">
+                        <div style="font-size: 4rem;">${data.symbol}</div>
+                        <h2 class="display-4">${sign}</h2>
+                        <p class="text-secondary">${data.dates}</p>
+                        <span class="badge bg-primary px-4 py-2 rounded-pill">${data.element}</span>
+                    </div>
+                    
+                    <div class="row g-3 mt-3">
+                        <div class="col-md-6">
+                            <div class="detail-card">
+                                <div class="label">🐉 Chinese Zodiac</div>
+                                <div class="value">${chineseSign}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="detail-card">
+                                <div class="label">🎨 Lucky Color</div>
+                                <div class="value" style="color: ${data.luckyColor.toLowerCase()};">${data.luckyColor}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="detail-card">
+                                <div class="label">🔢 Lucky Number</div>
+                                <div class="value">${data.luckyNumber}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="detail-card">
+                                <div class="label">📅 Lucky Day</div>
+                                <div class="value">${data.luckyDay}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="detail-card">
+                                <div class="label">💎 Gemstone</div>
+                                <div class="value">${data.gemstone}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <h5>📝 Personality</h5>
+                        <p class="text-secondary">${data.personality}</p>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <h5>💞 Compatible Signs</h5>
+                        <div class="d-flex flex-wrap gap-2">
+                            ${data.compatibility.map(s => `<span class="compatibility-badge">${s}</span>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3 d-flex gap-2">
+                        <button class="btn btn-gradient btn-sm" onclick="shareResult('zodiac', '${sign}')">
+                            <i class="fas fa-share-alt me-1"></i>Share
+                        </button>
+                        <button class="btn btn-outline-glass btn-sm" onclick="checkCompatibilityWith('${sign}')">
+                            <i class="fas fa-heart me-1"></i>Check Compatibility
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Save to history
+            saveZodiacHistory(sign, chineseSign);
+            triggerConfetti();
+            showToast(`✨ You are a ${sign}!`, 'success');
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ====== RENDER ZODIAC GRID ======
+        function renderZodiacGrid() {
+            const grid = document.getElementById('zodiacGrid');
+            grid.innerHTML = '';
+            
+            Object.entries(zodiacData).forEach(([sign, data]) => {
+                const col = document.createElement('div');
+                col.className = 'col-lg-2 col-md-3 col-sm-4 col-6';
+                col.innerHTML = `
+                    <div class="zodiac-card" onclick="showZodiacDetail('${sign}')">
+                        <div class="symbol">${data.symbol}</div>
+                        <div class="fw-bold">${sign}</div>
+                        <div class="text-secondary small">${data.dates}</div>
+                    </div>
+                `;
+                grid.appendChild(col);
+            });
+
+            // Populate compatibility dropdowns
+            const select1 = document.getElementById('compatSign1');
+            const select2 = document.getElementById('compatSign2');
+            select1.innerHTML = '<option value="">Select first sign</option>';
+            select2.innerHTML = '<option value="">Select second sign</option>';
+            
+            Object.keys(zodiacData).forEach(sign => {
+                select1.innerHTML += `<option value="${sign}">${zodiacData[sign].symbol} ${sign}</option>`;
+                select2.innerHTML += `<option value="${sign}">${zodiacData[sign].symbol} ${sign}</option>`;
+            });
+        }
+
+        // ====== SHOW ZODIAC DETAIL ======
+        function showZodiacDetail(sign) {
+            const data = zodiacData[sign];
+            if (!data) return;
+
+            const resultsDiv = document.getElementById('zodiacResults');
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = `
+                <div class="glass p-4 rounded-4 zodiac-result">
+                    <div class="text-center">
+                        <div style="font-size: 4rem;">${data.symbol}</div>
+                        <h2 class="display-4">${sign}</h2>
+                        <p class="text-secondary">${data.dates}</p>
+                        <span class="badge bg-primary px-4 py-2 rounded-pill">${data.element}</span>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <h5>📝 Personality</h5>
+                        <p class="text-secondary">${data.personality}</p>
+                    </div>
+                    
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-4">
+                            <div class="detail-card">
+                                <div class="label">🎨 Lucky Color</div>
+                                <div class="value" style="color: ${data.luckyColor.toLowerCase()};">${data.luckyColor}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="detail-card">
+                                <div class="label">🔢 Lucky Number</div>
+                                <div class="value">${data.luckyNumber}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="detail-card">
+                                <div class="label">💎 Gemstone</div>
+                                <div class="value">${data.gemstone}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <h5>💞 Compatible Signs</h5>
+                        <div class="d-flex flex-wrap gap-2">
+                            ${data.compatibility.map(s => `<span class="compatibility-badge">${s}</span>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3 d-flex gap-2">
+                        <button class="btn btn-gradient btn-sm" onclick="shareResult('zodiac', '${sign}')">
+                            <i class="fas fa-share-alt me-1"></i>Share
+                        </button>
+                        <button class="btn btn-outline-glass btn-sm" onclick="checkCompatibilityWith('${sign}')">
+                            <i class="fas fa-heart me-1"></i>Check Compatibility
+                        </button>
+                    </div>
+                </div>
+            `;
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ====== COMPATIBILITY ======
+        function checkCompatibility() {
+            const sign1 = document.getElementById('compatSign1').value;
+            const sign2 = document.getElementById('compatSign2').value;
+            
+            if (!sign1 || !sign2) {
+                showToast('Please select both signs!', 'warning');
+                return;
+            }
+
+            if (sign1 === sign2) {
+                showToast('Please select two different signs!', 'warning');
+                return;
+            }
+
+            checkCompatibilityBetween(sign1, sign2);
+        }
+
+        function checkCompatibilityWith(sign) {
+            document.getElementById('compatSign1').value = sign;
+            document.getElementById('compatSign2').value = '';
+            document.getElementById('compatResult').innerHTML = `
+                <div class="glass p-3">
+                    <p class="text-secondary">Select a second sign to check compatibility with ${sign}</p>
+                </div>
+            `;
+            document.getElementById('compatSign2').focus();
+            document.getElementById('zodiacResults').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function checkCompatibilityBetween(sign1, sign2) {
+            const data1 = zodiacData[sign1];
+            const data2 = zodiacData[sign2];
+            
+            const compat1 = data1.compatibility.includes(sign2);
+            const compat2 = data2.compatibility.includes(sign1);
+            
+            let result = '';
+            let emoji = '';
+            let color = '';
+            let score = 0;
+            
+            if (compat1 && compat2) {
+                result = 'Excellent Match! ✨ You share deep cosmic harmony.';
+                emoji = '🌟';
+                color = '#4ade80';
+                score = 95;
+            } else if (compat1 || compat2) {
+                result = 'Good Match! 💫 There\'s potential for a great connection.';
+                emoji = '💫';
+                color = '#f59e0b';
+                score = 75;
+            } else if (data1.element === data2.element) {
+                result = 'Interesting Match! 🌊 Same element creates understanding.';
+                emoji = '🌊';
+                color = '#60a5fa';
+                score = 60;
+            } else {
+                result = 'Challenging Match 🌊 Opposites attract! This pairing requires more work.';
+                emoji = '🌊';
+                color = '#fb7185';
+                score = 40;
+            }
+
+            document.getElementById('compatResult').innerHTML = `
+                <div class="glass p-4 rounded-4">
+                    <div class="d-flex align-items-center justify-content-center gap-4">
+                        <div style="font-size: 3rem;">${data1.symbol}</div>
+                        <div style="font-size: 2rem; color: ${color};">❤️</div>
+                        <div style="font-size: 3rem;">${data2.symbol}</div>
+                    </div>
+                    <h5 class="mt-2">${sign1} & ${sign2}</h5>
+                    <div class="compat-meter mt-2" style="height: 6px; background: rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden;">
+                        <div style="width: ${score}%; height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); border-radius: 10px; transition: width 0.8s ease;"></div>
+                    </div>
+                    <p style="color: ${color};" class="fw-bold mt-2">${emoji} ${result}</p>
+                    <div class="text-secondary small">${score}% Compatibility</div>
+                </div>
+            `;
+            document.getElementById('compatResult').scrollIntoView({ behavior: 'smooth' });
+            triggerConfetti();
+        }
+
+        // ====== ZODIAC HISTORY ======
+        function saveZodiacHistory(sign, chinese) {
+            const history = JSON.parse(localStorage.getItem('zodiacHistory') || '[]');
+            history.unshift({
+                sign: sign,
+                chinese: chinese,
+                date: new Date().toLocaleDateString(),
+                id: Date.now()
+            });
+            localStorage.setItem('zodiacHistory', JSON.stringify(history.slice(0, 10)));
+            loadZodiacHistory();
+        }
+
+        function loadZodiacHistory() {
+            const history = JSON.parse(localStorage.getItem('zodiacHistory') || '[]');
+            const container = document.getElementById('zodiacHistory');
+            
+            if (history.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12">
+                        <div class="glass p-4 text-center">
+                            <p class="text-secondary">No zodiac history yet. Discover your sign above!</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = history.map(item => `
+                <div class="col-md-6">
+                    <div class="glass p-3 rounded-3 d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>${item.sign}</strong>
+                            <span class="text-secondary small ms-2">🐉 ${item.chinese}</span>
+                            <div class="text-secondary small">${item.date}</div>
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteZodiacHistory(${item.id})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function deleteZodiacHistory(id) {
+            let history = JSON.parse(localStorage.getItem('zodiacHistory') || '[]');
+            history = history.filter(item => item.id !== id);
+            localStorage.setItem('zodiacHistory', JSON.stringify(history));
+            loadZodiacHistory();
+            showToast('History entry deleted!', 'info');
+        }
+
+        // ====== SHARE ======
+        function shareResult(type, value) {
+            const text = `✨ I discovered my zodiac sign: ${value}! Check yours at SoulSync ✨`;
+            if (navigator.share) {
+                navigator.share({ title: 'My Zodiac Result', text: text }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(text);
+                showToast('Result copied to clipboard! 📋', 'success');
+            }
+        }
+
+        // ====== TOAST ======
+        function showToast(message, type = 'info') {
+            const existing = document.querySelectorAll('.toast-custom');
+            existing.forEach(t => t.remove());
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-custom';
+            const colors = { success: '#4ade80', warning: '#f59e0b', danger: '#f87171', info: '#60a5fa' };
+            const icons = { success: 'check-circle', warning: 'exclamation-triangle', danger: 'times-circle', info: 'info-circle' };
+            toast.innerHTML = `<i class="fas fa-${icons[type] || 'info-circle'}" style="color:${colors[type] || '#60a5fa'}; margin-right:10px;"></i> ${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
+        }
+
+        // ====== CONFETTI ======
+        function triggerConfetti() {
+            const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4ade80', '#60a5fa'];
+            for (let i = 0; i < 30; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.cssText = `
+                    width: ${Math.random() * 8 + 4}px;
+                    height: ${Math.random() * 8 + 4}px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    left: ${Math.random() * 100}vw;
+                    top: -10px;
+                    border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+                    animation-duration: ${Math.random() * 2 + 2}s;
+                    animation-delay: ${Math.random() * 0.5}s;
+                `;
+                document.body.appendChild(piece);
+                setTimeout(() => piece.remove(), 3000);
+            }
+        }
+
+        // ====== INIT ======
+        document.addEventListener('DOMContentLoaded', () => {
+            renderZodiacGrid();
+            loadZodiacHistory();
+        });
+
+        console.log('⭐ Zodiac page loaded successfully!');
+    </script>
+</body>
+</html>

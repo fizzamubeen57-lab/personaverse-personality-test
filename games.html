@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<!-- games.html -->
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Games - SoulSync</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Base styles */
+        * { font-family: 'Inter', sans-serif; }
+        body { background: #0b0b1a; color: #f0f0ff; overflow-x: hidden; }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(20, 20, 40, 0.5);
+            backdrop-filter: blur(14px) saturate(180%);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.7);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #c084fc, #f472b6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .navbar-brand i {
+            -webkit-text-fill-color: initial;
+            color: #667eea;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.7) !important;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #ffffff !important;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: rgba(20, 20, 40, 0.5);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer .brand {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer .brand span {
+            color: white;
+        }
+
+        .footer .social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer .social a {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        .footer .social a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .footer .links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .footer .links a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.9rem;
+        }
+
+        .footer .links a:hover {
+            color: #667eea;
+        }
+
+        .footer .divider {
+            border-color: rgba(255, 255, 255, 0.05) !important;
+            margin: 2rem 0 1.5rem;
+        }
+
+        .footer .bottom-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .footer .bottom-text a {
+            color: rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .footer .bottom-text a:hover {
+            color: #667eea;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .btn-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-gradient:hover::before {
+            left: 100%;
+        }
+
+        /* Game styles */
+        .game-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+        }
+        .game-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(102, 126, 234, 0.4);
+            box-shadow: 0 12px 48px rgba(102, 126, 234, 0.15);
+        }
+        .game-card .icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        .game-card .badge {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.8rem;
+        }
+        
+        .memory-card {
+            width: 100px;
+            height: 100px;
+            background: rgba(20, 20, 40, 0.6);
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 auto;
+        }
+        .memory-card:hover { transform: scale(1.05); }
+        .memory-card.flipped {
+            background: rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+        .memory-card.matched {
+            background: rgba(74, 222, 128, 0.2);
+            border-color: #4ade80;
+            cursor: default;
+        }
+        .wheel-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+        }
+        .wheel-container canvas {
+            border-radius: 50%;
+            box-shadow: 0 0 40px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            border: none;
+            color: white;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+        }
+        .btn-gradient:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4);
+            color: white;
+        }
+        .btn-outline-glass {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.8);
+            transition: all 0.3s ease;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+        }
+        .btn-outline-glass:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: scale(1.02);
+        }
+        .modal-content {
+            background: transparent !important;
+            border: none !important;
+        }
+        .btn-close {
+            filter: invert(1);
+        }
+        .text-secondary {
+            color: rgba(255,255,255,0.5) !important;
+        }
+        .game-modal-content {
+            background: rgba(20,20,40,0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 2rem;
+            max-height: 90vh;
+            overflow-y: auto;
+            color: #f0f0ff;
+        }
+        /* Footer */
+        .footer {
+            background: rgba(20, 20, 40, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+        }
+        .footer .brand {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        .footer .brand span {
+            color: white;
+        }
+        .footer .social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .footer .social a {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .footer .social a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        .footer .links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .footer .links a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .footer .links a:hover {
+            color: #667eea;
+        }
+        .footer .divider {
+            border-color: rgba(255, 255, 255, 0.05) !important;
+            margin: 2rem 0 1.5rem;
+        }
+        .footer .bottom-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+        .footer .bottom-text a {
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .footer .bottom-text a:hover {
+            color: #667eea;
+        }
+        .toast-custom {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(20,20,40,0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            color: white;
+            z-index: 9999;
+            animation: slideUp 0.3s ease;
+            max-width: 350px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+        }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        .confetti-piece {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            z-index: 9998;
+            animation: confettiFall linear forwards;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-brain me-2"></i>PersonaVerse
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+                <i class="fas fa-bars text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tests.html">Tests</a></li>
+                    <li class="nav-item"><a class="nav-link" href="mbti.html">MBTI</a></li>
+                    <li class="nav-item"><a class="nav-link" href="zodiac.html">Zodiac</a></li>
+                    <li class="nav-item"><a class="nav-link" href="compatibility.html">Compatibility</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="games.html">Games</a></li>
+                    <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="settings.html"><i class="fas fa-cog"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MOBILE MENU ===== -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu">
+        <div class="offcanvas-header" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+            <h5 class="offcanvas-title"><i class="fas fa-brain me-2"></i>PersonaVerse</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body" style="background: #0a0a1a;">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="tests.html">Tests</a></li>
+                <li class="nav-item"><a class="nav-link" href="mbti.html">MBTI</a></li>
+                <li class="nav-item"><a class="nav-link" href="zodiac.html">Zodiac</a></li>
+                <li class="nav-item"><a class="nav-link" href="compatibility.html">Compatibility</a></li>
+                <li class="nav-item"><a class="nav-link" href="games.html">Games</a></li>
+                <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ====== GAMES PAGE ====== -->
+    <section class="py-5 mt-5">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h1 class="display-4 fw-bold mb-3">🎮 Fun <span class="text-gradient">Games</span></h1>
+                <p class="text-secondary">Play interactive games and have fun discovering personality insights</p>
+            </div>
+
+            <!-- Game Categories - All 9 Games -->
+            <div class="row g-4 mt-3">
+                <!-- Memory Card Game -->
+                <div class="col-lg-4 col-md-6" data-aos="flip-up" data-aos-delay="100">
+                    <div class="game-card" onclick="playMemoryGame()">
+                        <div class="icon">🃏</div>
+                        <h5>Memory Match</h5>
+                        <p class="text-secondary small">Flip cards and find matching pairs</p>
+                        <span class="badge bg-primary">Popular</span>
+                    </div>
+                </div>
+
+                <!-- Wheel Spinner -->
+                <div class="col-lg-4 col-md-6" data-aos="flip-up" data-aos-delay="200">
+                    <div class="game-card" onclick="spinWheel()">
+                        <div class="icon">🎡</div>
+                        <h5>Fortune Wheel</h5>
+                        <p class="text-secondary small">Spin the wheel and discover your fortune</p>
+                    </div>
+                </div>
+
+                <!-- Would You Rather -->
+                <div class="col-lg-4 col-md-6" data-aos="flip-up" data-aos-delay="300">
+                    <div class="game-card" onclick="playWouldYouRather()">
+                        <div class="icon">🤔</div>
+                        <h5>Would You Rather</h5>
+                        <p class="text-secondary small">Make tough choices and discover your preferences</p>
+                    </div>
+                </div>
+
+                <!-- This or That -->
+                <div class="col-lg-4 col-md-6" data-aos="flip-up" data-aos-delay="400">
+                    <div class="game-card" onclick="playThisOrThat()">
+                        <div class="icon">⚖️</div>
+                        <h5>This or That</h5>
+                        <p class="text-secondary small">Choose between two options and see your style</p>
+                    </div>
+                </div>
+
+                <!-- Emoji Quiz -->
+                <div class="col-lg-4 col-md-6" data-aos="flip-up" data-aos-delay="500">
+                    <div class="game-card" onclick="playEmojiQuiz()">
+                        <div class="icon">😊</div>
+                        <h5>Emoji Quiz</h5>
+                        <p class="text-secondary small">Guess personality traits from emojis</p>
+                    </div>
+                </div>
+
+                <!-- Rapid Fire -->
+                <div class="col-lg-4 col-md-6" data-aos="flip-up" data-aos-delay="600">
+                    <div class="game-card" onclick="playRapidFire()">
+                        <div class="icon">⚡</div>
+                        <h5>Rapid Fire</h5>
+                        <p class="text-secondary small">Quick-fire personality questions</p>
+                        <span class="badge bg-success">New</span>
+                    </div>
+                </div>
+
+                <!-- Personality Bingo -->
+                <div class="col-lg-4 col-md-6" data-aos="flip-up" data-aos-delay="700">
+                    <div class="game-card" onclick="playBingo()">
+                        <div class="icon">🎯</div>
+                        <h5>Personality Bingo</h5>
+                        <p class="text-secondary small">Match personality traits and win</p>
+                    </div>
+                </div>
+
+                <!-- Daily Challenge -->
+                <div class="col-lg-4 col-md-6" data-aos="flip-up" data-aos-delay="800">
+                    <div class="game-card" onclick="playDailyChallenge()">
+                        <div class="icon">📅</div>
+                        <h5>Daily Challenge</h5>
+                        <p class="text-secondary small">Complete today's personality challenge</p>
+                        <span class="badge bg-warning">Daily</span>
+                    </div>
+                </div>
+
+                <!-- Mood Picker -->
+                <div class="col-lg-4 col-md-6" data-aos="flip-up" data-aos-delay="900">
+                    <div class="game-card" onclick="playMoodPicker()">
+                        <div class="icon">😊</div>
+                        <h5>Mood Picker</h5>
+                        <p class="text-secondary small">Express your mood and get insights</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== GAME MODAL ====== -->
+    <div class="modal fade" id="gameModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="game-modal-content" id="gameContent">
+                    <!-- Dynamically loaded -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="brand">
+                        <i class="fas fa-brain me-2"></i><span>Persona</span>Verse
+                    </div>
+                    <p class="text-secondary mt-3" style="font-size: 0.9rem; max-width: 300px;">
+                        Discover your true self through personality tests, zodiac insights, and interactive experiences.
+                    </p>
+                    <div class="social">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-spotify"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Explore</h6>
+                    <div class="links">
+                        <a href="tests.html">Tests</a>
+                        <a href="mbti.html">MBTI</a>
+                        <a href="zodiac.html">Zodiac</a>
+                        <a href="games.html">Games</a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Community</h6>
+                    <div class="links">
+                        <a href="leaderboard.html">Leaderboard</a>
+                        <a href="blog.html">Blog</a>
+                        <a href="compatibility.html">Compatibility</a>
+                        <a href="settings.html">Settings</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Stay Updated</h6>
+                    <p class="text-secondary" style="font-size: 0.85rem;">Subscribe to get the latest personality insights and updates.</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Your email" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 50px 0 0 50px; padding: 0.6rem 1rem;">
+                        <button class="btn btn-gradient" style="border-radius: 0 50px 50px 0; padding: 0.6rem 1.2rem;">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr class="divider">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <span class="bottom-text">© 2026 PersonaVerse. All rights reserved.</span>
+                <div class="bottom-text d-flex gap-3">
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Privacy Policy</a>
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Terms of Service</a>
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        let gameModal;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            gameModal = new bootstrap.Modal(document.getElementById('gameModal'));
+        });
+
+        // ====== TOAST ======
+        function showToast(message, type = 'info') {
+            const existing = document.querySelectorAll('.toast-custom');
+            existing.forEach(t => t.remove());
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-custom';
+            const colors = { success: '#4ade80', warning: '#f59e0b', danger: '#f87171', info: '#60a5fa' };
+            const icons = { success: 'check-circle', warning: 'exclamation-triangle', danger: 'times-circle', info: 'info-circle' };
+            toast.innerHTML = `<i class="fas fa-${icons[type] || 'info-circle'}" style="color:${colors[type] || '#60a5fa'}; margin-right:10px;"></i> ${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
+        }
+
+        // ====== CONFETTI ======
+        function triggerConfetti() {
+            const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4ade80', '#60a5fa'];
+            for (let i = 0; i < 30; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.cssText = `
+                    width: ${Math.random() * 8 + 4}px;
+                    height: ${Math.random() * 8 + 4}px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    left: ${Math.random() * 100}vw;
+                    top: -10px;
+                    border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+                    animation-duration: ${Math.random() * 2 + 2}s;
+                    animation-delay: ${Math.random() * 0.5}s;
+                `;
+                document.body.appendChild(piece);
+                setTimeout(() => piece.remove(), 3000);
+            }
+        }
+
+        // ====== MEMORY GAME ======
+        function playMemoryGame() {
+            const emojis = ['🧠', '⭐', '🌈', '🎯', '💡', '🌟', '🔥', '💎'];
+            const cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+            let flipped = [], matched = [], lock = false;
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4>🃏 Memory Match</h4>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <p class="text-secondary">Find all matching pairs!</p>
+                <div class="row g-3 justify-content-center" id="memoryGrid">
+                    ${cards.map((emoji, i) => `
+                        <div class="col-3">
+                            <div class="memory-card" data-index="${i}" onclick="flipMemoryCard(this, '${emoji}', ${i})">❓</div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="mt-3 text-center">
+                    <button class="btn btn-gradient btn-sm" onclick="playMemoryGame()">🔄 New Game</button>
+                </div>
+            `;
+
+            window.flipMemoryCard = function(el, emoji, index) {
+                if (lock || matched.includes(index) || flipped.includes(index)) return;
+                if (flipped.length === 2) return;
+                
+                el.textContent = emoji;
+                el.classList.add('flipped');
+                flipped.push(index);
+                
+                if (flipped.length === 2) {
+                    lock = true;
+                    const [i1, i2] = flipped;
+                    const el1 = document.querySelector(`[data-index="${i1}"]`);
+                    const el2 = document.querySelector(`[data-index="${i2}"]`);
+                    
+                    if (el1.textContent === el2.textContent && i1 !== i2) {
+                        el1.classList.add('matched');
+                        el2.classList.add('matched');
+                        matched.push(i1, i2);
+                        flipped = [];
+                        lock = false;
+                        
+                        if (matched.length === cards.length) {
+                            setTimeout(() => {
+                                showToast('🎉 You won! All pairs matched!', 'success');
+                                triggerConfetti();
+                                gameModal.hide();
+                            }, 500);
+                        }
+                    } else {
+                        setTimeout(() => {
+                            el1.textContent = '❓';
+                            el1.classList.remove('flipped');
+                            el2.textContent = '❓';
+                            el2.classList.remove('flipped');
+                            flipped = [];
+                            lock = false;
+                        }, 800);
+                    }
+                }
+            };
+
+            gameModal.show();
+        }
+
+        // ====== SPIN WHEEL ======
+        function spinWheel() {
+            const prizes = ['🎉 Lucky Day!', '⭐ Amazing!', '💫 Opportunity!', '🌟 Fortune!', '🔥 Positive!', '🌈 Good Vibes!', '💎 Gem!', '🎯 On Target!'];
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <div class="text-center">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4>🎡 Fortune Wheel</h4>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <p class="text-secondary">Spin the wheel and discover your fortune!</p>
+                    <div class="wheel-container"><canvas id="wheelCanvas" width="300" height="300"></canvas></div>
+                    <button class="btn btn-gradient mt-3" onclick="spinTheWheel()"><i class="fas fa-sync-alt me-2"></i>Spin!</button>
+                    <div id="wheelResult" class="mt-3"></div>
+                </div>
+            `;
+
+            let spinning = false, currentAngle = 0;
+            const canvas = document.getElementById('wheelCanvas');
+            const ctx = canvas.getContext('2d');
+            const segs = prizes.length;
+            const segAngle = (2 * Math.PI) / segs;
+
+            function drawWheel(angle) {
+                ctx.clearRect(0, 0, 300, 300);
+                const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4ade80', '#60a5fa', '#f59e0b', '#a78bfa'];
+                for (let i = 0; i < segs; i++) {
+                    const start = angle + i * segAngle;
+                    const end = start + segAngle;
+                    ctx.beginPath();
+                    ctx.moveTo(150, 150);
+                    ctx.arc(150, 150, 140, start, end);
+                    ctx.closePath();
+                    ctx.fillStyle = colors[i % colors.length];
+                    ctx.fill();
+                    ctx.stroke();
+                    
+                    ctx.save();
+                    ctx.translate(150, 150);
+                    ctx.rotate(start + segAngle / 2);
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = 'white';
+                    ctx.font = '12px Inter';
+                    ctx.fillText(prizes[i], 80, 5);
+                    ctx.restore();
+                }
+                ctx.beginPath();
+                ctx.arc(150, 150, 20, 0, 2 * Math.PI);
+                ctx.fillStyle = 'white';
+                ctx.fill();
+            }
+
+            window.spinTheWheel = function() {
+                if (spinning) return;
+                spinning = true;
+                const target = currentAngle + (5 + Math.random() * 5) * 2 * Math.PI + Math.random() * 2 * Math.PI;
+                const duration = 4000;
+                const startTime = performance.now();
+                const startAngle = currentAngle;
+
+                function animate(time) {
+                    const elapsed = time - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    const angle = startAngle + (target - startAngle) * eased;
+                    drawWheel(angle);
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        currentAngle = target;
+                        spinning = false;
+                        const idx = Math.floor(((target % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI) / segAngle) % segs;
+                        document.getElementById('wheelResult').innerHTML = `<div class="glass p-3"><div style="font-size:2rem;">${prizes[idx]}</div></div>`;
+                        showToast(`🎡 ${prizes[idx]}`, 'success');
+                        triggerConfetti();
+                    }
+                }
+                requestAnimationFrame(animate);
+            };
+
+            drawWheel(0);
+            gameModal.show();
+        }
+
+        // ====== WOULD YOU RATHER ======
+        function playWouldYouRather() {
+            const qs = [
+                { a: 'Read minds', b: 'Fly' },
+                { a: 'Live without music', b: 'Live without art' },
+                { a: 'Be a celebrity', b: 'Be a world leader' },
+                { a: 'Unlimited money', b: 'Unlimited time' },
+                { a: 'Travel to the past', b: 'Travel to the future' }
+            ];
+            const q = qs[Math.floor(Math.random() * qs.length)];
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <div class="text-center">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4>🤔 Would You Rather</h4>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <p class="text-secondary">Choose your preference</p>
+                    <div class="row g-3 mt-3">
+                        <div class="col-6">
+                            <button class="btn btn-gradient w-100 py-3" onclick="wouldChoose('${q.a}')">${q.a}</button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-outline-glass w-100 py-3" onclick="wouldChoose('${q.b}')">${q.b}</button>
+                        </div>
+                    </div>
+                    <div id="wouldResult" class="mt-3"></div>
+                    <button class="btn btn-outline-glass mt-3" onclick="playWouldYouRather()">🔄 Next Question</button>
+                </div>
+            `;
+
+            window.wouldChoose = function(choice) {
+                document.getElementById('wouldResult').innerHTML = `
+                    <div class="glass p-3">
+                        <p class="h5">You chose: "${choice}"</p>
+                        <p class="text-secondary">Interesting choice! This reveals your values and priorities.</p>
+                    </div>
+                `;
+                showToast('🤔 Great choice!', 'info');
+            };
+
+            gameModal.show();
+        }
+
+        // ====== THIS OR THAT ======
+        function playThisOrThat() {
+            const pairs = [
+                { a: '☀️ Morning Person', b: '🌙 Night Owl' },
+                { a: '📚 Books', b: '🎬 Movies' },
+                { a: '🏠 Stay Home', b: '✈️ Travel' },
+                { a: '🎨 Arts', b: '🔬 Science' },
+                { a: '👥 Group Work', b: '💪 Solo Work' }
+            ];
+            const p = pairs[Math.floor(Math.random() * pairs.length)];
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <div class="text-center">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4>⚖️ This or That</h4>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <p class="text-secondary">Pick your preference</p>
+                    <div class="row g-3 mt-3">
+                        <div class="col-6">
+                            <button class="btn btn-gradient w-100 py-3" onclick="thisChoose('${p.a}')">${p.a}</button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-outline-glass w-100 py-3" onclick="thisChoose('${p.b}')">${p.b}</button>
+                        </div>
+                    </div>
+                    <div id="thisResult" class="mt-3"></div>
+                    <button class="btn btn-outline-glass mt-3" onclick="playThisOrThat()">🔄 Next</button>
+                </div>
+            `;
+
+            window.thisChoose = function(choice) {
+                document.getElementById('thisResult').innerHTML = `
+                    <div class="glass p-3">
+                        <p class="h5">You prefer: "${choice}"</p>
+                        <p class="text-secondary">This reflects your personality preferences!</p>
+                    </div>
+                `;
+            };
+
+            gameModal.show();
+        }
+
+        // ====== EMOJI QUIZ ======
+        function playEmojiQuiz() {
+            const qs = [
+                { emoji: '🧠', answer: 'Intelligent', opts: ['Intelligent', 'Creative', 'Analytical', 'Wise'] },
+                { emoji: '❤️', answer: 'Loving', opts: ['Loving', 'Passionate', 'Caring', 'Emotional'] },
+                { emoji: '⭐', answer: 'Confident', opts: ['Confident', 'Shy', 'Bold', 'Determined'] },
+                { emoji: '🎨', answer: 'Creative', opts: ['Creative', 'Artistic', 'Imaginative', 'Innovative'] }
+            ];
+            let current = 0, score = 0;
+            
+            function showQ() {
+                if (current >= qs.length) {
+                    content.innerHTML = `
+                        <div class="text-center">
+                            <h4>🎉 Quiz Complete!</h4>
+                            <p class="display-4">${score}/${qs.length}</p>
+                            <p class="text-secondary">${score === qs.length ? 'Perfect! You\'re an emoji master!' : 'Good job! Keep learning!'}</p>
+                            <button class="btn btn-gradient" onclick="playEmojiQuiz()">🔄 Try Again</button>
+                        </div>
+                    `;
+                    if (score === qs.length) triggerConfetti();
+                    return;
+                }
+                const q = qs[current];
+                content.innerHTML = `
+                    <div class="text-center">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4>😊 Emoji Quiz</h4>
+                            <span class="badge bg-primary">${current+1}/${qs.length}</span>
+                        </div>
+                        <div style="font-size:5rem;">${q.emoji}</div>
+                        <p class="text-secondary mt-3">What personality trait does this emoji represent?</p>
+                        <div class="row g-2 mt-3">
+                            ${q.opts.map(o => `
+                                <div class="col-6">
+                                    <button class="btn btn-outline-glass w-100 py-2" onclick="emojiAnswer('${o}','${q.answer}')">${o}</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            window.emojiAnswer = function(opt, ans) {
+                if (opt === ans) { score++; showToast('✅ Correct!', 'success'); } 
+                else { showToast(`❌ The answer was: ${ans}`, 'danger'); }
+                current++;
+                setTimeout(showQ, 800);
+            };
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = '';
+            showQ();
+            gameModal.show();
+        }
+
+        // ====== RAPID FIRE ======
+        function playRapidFire() {
+            const qs = [
+                { q: 'You prefer working alone?', opts: ['Yes', 'Sometimes', 'No'] },
+                { q: 'You\'re naturally curious?', opts: ['Yes', 'Sometimes', 'No'] },
+                { q: 'You enjoy social gatherings?', opts: ['Yes', 'Sometimes', 'No'] },
+                { q: 'You\'re organized?', opts: ['Yes', 'Sometimes', 'No'] }
+            ];
+            let current = 0, answers = [];
+            
+            function showQ() {
+                if (current >= qs.length) {
+                    const yes = answers.filter(a => a === 'Yes').length;
+                    content.innerHTML = `
+                        <div class="text-center">
+                            <h4>⚡ Rapid Fire Complete!</h4>
+                            <p class="display-4">${yes}/${qs.length}</p>
+                            <p class="text-secondary">${yes >= 3 ? '🔥 You\'re decisive!' : '💭 You take time to think!'}</p>
+                            <button class="btn btn-gradient" onclick="playRapidFire()">🔄 Try Again</button>
+                        </div>
+                    `;
+                    triggerConfetti();
+                    return;
+                }
+                const q = qs[current];
+                content.innerHTML = `
+                    <div class="text-center">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4>⚡ Rapid Fire</h4>
+                            <span class="badge bg-primary">${current+1}/${qs.length}</span>
+                        </div>
+                        <p class="h5">${q.q}</p>
+                        <div class="d-flex flex-wrap gap-2 justify-content-center mt-3">
+                            ${q.opts.map(o => `<button class="btn btn-gradient" onclick="rapidAnswer('${o}')">${o}</button>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            window.rapidAnswer = function(ans) {
+                answers.push(ans);
+                current++;
+                showQ();
+            };
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = '';
+            showQ();
+            gameModal.show();
+        }
+
+        // ====== PERSONALITY BINGO ======
+        function playBingo() {
+            const traits = ['Creative', 'Analytical', 'Empathetic', 'Organized', 'Adventurous', 'Loyal', 'Ambitious', 'Curious'];
+            const shuffled = traits.sort(() => Math.random() - 0.5).slice(0, 4);
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <div class="text-center">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4>🎯 Personality Bingo</h4>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <p class="text-secondary">Find these traits in yourself!</p>
+                    <div class="row g-2 justify-content-center">
+                        ${shuffled.map(trait => `
+                            <div class="col-6">
+                                <button class="btn btn-outline-glass w-100 py-2" onclick="bingoMark(this, '${trait}')">
+                                    ${trait}
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div id="bingoResult" class="mt-3"></div>
+                    <button class="btn btn-outline-glass mt-3" onclick="playBingo()">🔄 New Card</button>
+                </div>
+            `;
+
+            window.bingoMark = function(element, trait) {
+                if (element.classList.contains('btn-gradient')) {
+                    element.classList.remove('btn-gradient');
+                    element.classList.add('btn-outline-glass');
+                    showToast(`❌ Removed: ${trait}`, 'warning');
+                } else {
+                    element.classList.remove('btn-outline-glass');
+                    element.classList.add('btn-gradient');
+                    showToast(`✅ Marked: ${trait}`, 'success');
+                }
+                
+                const marked = document.querySelectorAll('.btn-gradient').length;
+                if (marked === 4) {
+                    document.getElementById('bingoResult').innerHTML = `
+                        <div class="glass p-3 mt-3">
+                            <p class="h5">🎉 BINGO!</p>
+                            <p class="text-secondary">You match all these personality traits!</p>
+                        </div>
+                    `;
+                    triggerConfetti();
+                }
+            };
+
+            gameModal.show();
+        }
+
+        // ====== DAILY CHALLENGE ======
+        function playDailyChallenge() {
+            const challenges = [
+                'Meditate for 5 minutes today',
+                'Write down 3 things you\'re grateful for',
+                'Compliment someone today',
+                'Try something new today',
+                'Read for 15 minutes',
+                'Take a 10-minute walk outdoors',
+                'Call a friend you haven\'t spoken to in a while',
+                'Practice deep breathing for 2 minutes'
+            ];
+            
+            const challenge = challenges[Math.floor(Math.random() * challenges.length)];
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <div class="text-center">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4>📅 Daily Challenge</h4>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <p class="text-secondary">Today's personality challenge:</p>
+                    <div class="glass p-4">
+                        <p class="h4">${challenge}</p>
+                    </div>
+                    <div class="mt-3 d-flex gap-2 justify-content-center">
+                        <button class="btn btn-gradient" onclick="completeChallenge()">
+                            ✅ Complete
+                        </button>
+                        <button class="btn btn-outline-glass" onclick="playDailyChallenge()">
+                            🔄 New Challenge
+                        </button>
+                    </div>
+                    <div id="challengeResult" class="mt-3"></div>
+                </div>
+            `;
+
+            window.completeChallenge = function() {
+                document.getElementById('challengeResult').innerHTML = `
+                    <div class="glass p-3">
+                        <p class="h5">🎉 Challenge Complete!</p>
+                        <p class="text-secondary">You earned 50 XP for completing today's challenge!</p>
+                    </div>
+                `;
+                showToast('🌟 Daily challenge complete! +50 XP', 'success');
+                triggerConfetti();
+            };
+
+            gameModal.show();
+        }
+
+        // ====== MOOD PICKER ======
+        function playMoodPicker() {
+            const moods = ['😊 Happy', '😢 Sad', '😤 Angry', '🤔 Thoughtful', '😌 Peaceful', '😱 Anxious', '💪 Confident', '🤗 Excited'];
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <div class="text-center">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4>😊 Mood Picker</h4>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <p class="text-secondary">How are you feeling right now?</p>
+                    <div class="d-flex flex-wrap gap-2 justify-content-center">
+                        ${moods.map(mood => `
+                            <button class="btn btn-outline-glass" onclick="selectMood('${mood}')">
+                                ${mood}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="moodResult" class="mt-3"></div>
+                </div>
+            `;
+
+            window.selectMood = function(mood) {
+                const insights = {
+                    '😊 Happy': 'You\'re in a great place! Keep spreading positive vibes!',
+                    '😢 Sad': 'It\'s okay to feel sad. Tomorrow is a new day.',
+                    '😤 Angry': 'Take a deep breath. Focus on what you can control.',
+                    '🤔 Thoughtful': 'Great time for self-reflection and planning.',
+                    '😌 Peaceful': 'You\'re in perfect balance. Enjoy the calm.',
+                    '😱 Anxious': 'Breathe deeply. Everything will work out.',
+                    '💪 Confident': 'You\'re ready to conquer anything!',
+                    '🤗 Excited': 'Channel that energy into something amazing!'
+                };
+                
+                document.getElementById('moodResult').innerHTML = `
+                    <div class="glass p-3">
+                        <p class="h5">${mood}</p>
+                        <p class="text-secondary">${insights[mood] || 'Interesting mood! Keep exploring your emotions.'}</p>
+                    </div>
+                `;
+                showToast(`✨ ${mood}`, 'info');
+            };
+
+            gameModal.show();
+        }
+
+        console.log('🎮 Games page loaded successfully with all 9 games!');
+    </script>
+</body>
+</html>

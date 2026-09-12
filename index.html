@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PersonaVerse - Discover Your True Personality</title>
+    
+    <!-- Bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <!-- Animate.css -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+    
+    <style>
+        /* ===== ROOT VARIABLES ===== */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --shadow-glow: 0 8px 32px rgba(102, 126, 234, 0.3);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-bs-theme="light"] {
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --text-primary: #1a1a2e;
+            --text-secondary: rgba(0, 0, 0, 0.7);
+        }
+
+        /* ===== GLOBAL STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a1a;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: background 0.5s ease;
+        }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .bg-animated {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 50%, rgba(245, 87, 108, 0.15) 0%, transparent 60%),
+                        radial-gradient(ellipse at 50% 100%, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
+            animation: bgPulse 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        /* Floating Shapes */
+        .floating-shape {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.1;
+            animation: floatShape 20s infinite linear;
+        }
+
+        .floating-shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            background: #667eea;
+            top: -150px;
+            left: -150px;
+            animation-duration: 25s;
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            background: #f5576c;
+            bottom: -200px;
+            right: -200px;
+            animation-duration: 30s;
+            animation-delay: -5s;
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            background: #764ba2;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-duration: 20s;
+            animation-delay: -10s;
+        }
+
+        @keyframes floatShape {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            33% { transform: translate(100px, -100px) scale(1.2) rotate(120deg); }
+            66% { transform: translate(-100px, 100px) scale(0.8) rotate(240deg); }
+            100% { transform: translate(0, 0) scale(1) rotate(360deg); }
+        }
+
+        /* ===== GLASSMORPHISM ===== */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--shadow-glow);
+            transition: var(--transition);
+        }
+
+        .glass:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(102, 126, 234, 0.4);
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .navbar-brand i {
+            -webkit-text-fill-color: initial;
+            color: #667eea;
+        }
+
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary) !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-gradient {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .btn-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-gradient:hover::before {
+            left: 100%;
+        }
+
+        .btn-outline-glass {
+            background: transparent;
+            border: 2px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-outline-glass:hover {
+            background: var(--glass-bg);
+            border-color: #667eea;
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 60px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .highlight {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        .hero .floating-brain {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* ===== STATS ===== */
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===== CARDS ===== */
+        .personality-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: var(--transition);
+            cursor: pointer;
+            height: 100%;
+        }
+
+        .personality-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+        }
+
+        .personality-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* ===== TEST PROGRESS ===== */
+        .progress-glass {
+            height: 8px;
+            background: var(--glass-bg);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-glass .progress-bar {
+            background: var(--primary-gradient);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* ===== QUIZ CARD ===== */
+        .quiz-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            transition: var(--transition);
+        }
+
+        .option-btn {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 16px;
+            color: var(--text-primary);
+            text-align: left;
+            transition: var(--transition);
+            margin-bottom: 0.75rem;
+        }
+
+        .option-btn:hover {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .option-btn.selected {
+            background: rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        /* ===== RESULT BADGE ===== */
+        .result-badge {
+            display: inline-block;
+            padding: 0.5rem 2rem;
+            background: var(--primary-gradient);
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        /* ===== MBTI GRID ===== */
+        .mbti-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .mbti-type {
+            padding: 1rem;
+            text-align: center;
+            background: var(--glass-bg);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .mbti-type:hover {
+            transform: scale(1.05);
+            border-color: #667eea;
+        }
+
+        .mbti-type .code {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===== ZODIAC ===== */
+        .zodiac-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--glass-bg);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .zodiac-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(102, 126, 234, 0.3);
+        }
+
+        .zodiac-card .symbol {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ===== GAME CARDS ===== */
+        .game-card {
+            padding: 2rem;
+            text-align: center;
+            background: var(--glass-bg);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+            cursor: pointer;
+            height: 100%;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 48px rgba(102, 126, 234, 0.3);
+        }
+
+        .game-card .game-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* ===== CHART CONTAINER ===== */
+        .chart-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        /* ===== BLOG CARD ===== */
+        .blog-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: var(--transition);
+            height: 100%;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(102, 126, 234, 0.3);
+        }
+
+        .blog-card .blog-img {
+            height: 200px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .blog-card .blog-body {
+            padding: 1.5rem;
+        }
+
+        /* ===== TOAST ===== */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        /* ===== SETTINGS TOGGLE ===== */
+        .settings-toggle {
+            width: 60px;
+            height: 30px;
+            background: var(--glass-bg);
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .settings-toggle.active {
+            background: #667eea;
+        }
+
+        .settings-toggle .toggle-dot {
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: var(--transition);
+        }
+
+        .settings-toggle.active .toggle-dot {
+            left: 34px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 100px 0 40px;
+                text-align: center;
+            }
+            
+            .hero p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .quiz-card {
+                padding: 1.5rem;
+                margin: 0 0.5rem;
+            }
+            
+            .mbti-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .text-gradient {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(20, 20, 40, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+        }
+        .footer .brand {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        .footer .brand span {
+            color: white;
+        }
+        .footer .social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .footer .social a {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .footer .social a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        .footer .links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .footer .links a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .footer .links a:hover {
+            color: #667eea;
+        }
+        .footer .divider {
+            border-color: rgba(255, 255, 255, 0.05) !important;
+            margin: 2rem 0 1.5rem;
+        }
+        .footer .bottom-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+        .footer .bottom-text a {
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .footer .bottom-text a:hover {
+            color: #667eea;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--glass-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-gradient);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
+        }
+
+        /* Confetti */
+        .confetti-piece {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 9998;
+            animation: confettiFall 3s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== ANIMATED BACKGROUND ===== -->
+    <div class="bg-animated"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+
+    <!-- ===== TOAST CONTAINER ===== -->
+    <div class="toast-container"></div>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-brain me-2"></i>PersonaVerse
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+                <i class="fas fa-bars text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tests.html">Tests</a></li>
+                    <li class="nav-item"><a class="nav-link" href="mbti.html">MBTI</a></li>
+                    <li class="nav-item"><a class="nav-link" href="zodiac.html">Zodiac</a></li>
+                    <li class="nav-item"><a class="nav-link" href="compatibility.html">Compatibility</a></li>
+                    <li class="nav-item"><a class="nav-link" href="games.html">Games</a></li>
+                    <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="settings.html"><i class="fas fa-cog"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MOBILE MENU ===== -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu">
+        <div class="offcanvas-header" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+            <h5 class="offcanvas-title"><i class="fas fa-brain me-2"></i>PersonaVerse</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body" style="background: #0a0a1a;">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="tests.html">Tests</a></li>
+                <li class="nav-item"><a class="nav-link" href="mbti.html">MBTI</a></li>
+                <li class="nav-item"><a class="nav-link" href="zodiac.html">Zodiac</a></li>
+                <li class="nav-item"><a class="nav-link" href="compatibility.html">Compatibility</a></li>
+                <li class="nav-item"><a class="nav-link" href="games.html">Games</a></li>
+                <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7" data-aos="fade-right" data-aos-duration="1000">
+                    <div class="badge bg-primary bg-opacity-25 text-primary mb-3 px-4 py-2 rounded-pill">
+                        <i class="fas fa-sparkles me-2"></i>Explore Your True Self
+                    </div>
+                    <h1>
+                        Discover Your<br>
+                        <span class="highlight">True Personality</span>
+                    </h1>
+                    <p>
+                        Explore personality psychology, MBTI, zodiac signs, compatibility, 
+                        fun games, and interactive quizzes. Understand yourself and others better.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="tests.html" class="btn btn-gradient">
+                            <i class="fas fa-rocket me-2"></i>Start Test
+                        </a>
+                        <a href="mbti.html" class="btn btn-outline-glass">
+                            <i class="fas fa-users me-2"></i>Explore Personalities
+                        </a>
+                        <a href="games.html" class="btn btn-outline-glass">
+                            <i class="fas fa-gamepad me-2"></i>Play Games
+                        </a>
+                    </div>
+                    <div class="mt-5 d-flex flex-wrap gap-5">
+                        <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+                            <div class="stat-number">50K+</div>
+                            <div class="text-secondary">Tests Taken</div>
+                        </div>
+                        <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                            <div class="stat-number">4.8</div>
+                            <div class="text-secondary">Average Rating</div>
+                        </div>
+                        <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+                            <div class="stat-number">16</div>
+                            <div class="text-secondary">Personality Types</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 text-center" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="floating-brain">
+                        <i class="fas fa-brain" style="font-size: 12rem; background: var(--primary-gradient); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; opacity: 0.8;"></i>
+                    </div>
+                    <div class="mt-3 d-flex justify-content-center gap-3">
+                        <span class="badge bg-primary bg-opacity-25 px-3 py-2 rounded-pill">
+                            <i class="fas fa-star me-1"></i>MBTI
+                        </span>
+                        <span class="badge bg-primary bg-opacity-25 px-3 py-2 rounded-pill">
+                            <i class="fas fa-star me-1"></i>Big Five
+                        </span>
+                        <span class="badge bg-primary bg-opacity-25 px-3 py-2 rounded-pill">
+                            <i class="fas fa-star me-1"></i>Zodiac
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES ===== -->
+    <section class="py-5" id="features">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h2 class="section-title">Why Choose <span class="text-gradient">PersonaVerse</span></h2>
+                <p class="section-subtitle">Discover the most comprehensive personality discovery platform</p>
+            </div>
+            <div class="row g-4 mt-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="personality-card text-center">
+                        <div class="icon"><i class="fas fa-brain text-primary"></i></div>
+                        <h5>Multiple Tests</h5>
+                        <p class="text-secondary">MBTI, Big Five, DISC, Enneagram, Love Languages, and more</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="personality-card text-center">
+                        <div class="icon"><i class="fas fa-chart-pie text-success"></i></div>
+                        <h5>Detailed Analytics</h5>
+                        <p class="text-secondary">Visual charts, graphs, and in-depth personality analysis</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="personality-card text-center">
+                        <div class="icon"><i class="fas fa-trophy text-warning"></i></div>
+                        <h5>Gamification</h5>
+                        <p class="text-secondary">Earn XP, badges, achievements, and track your progress</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="personality-card text-center">
+                        <div class="icon"><i class="fas fa-star text-info"></i></div>
+                        <h5>Zodiac & Astrology</h5>
+                        <p class="text-secondary">Discover your zodiac sign, Chinese zodiac, and numerology</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="personality-card text-center">
+                        <div class="icon"><i class="fas fa-gamepad text-danger"></i></div>
+                        <h5>Fun Games</h5>
+                        <p class="text-secondary">Interactive quizzes and games to make learning fun</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="personality-card text-center">
+                        <div class="icon"><i class="fas fa-share-alt text-purple"></i></div>
+                        <h5>Share Results</h5>
+                        <p class="text-secondary">Compare and share your personality results with friends</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== POPULAR TESTS ===== -->
+    <section class="py-5" style="background: var(--glass-bg);">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h2 class="section-title">Popular <span class="text-gradient">Personality Tests</span></h2>
+                <p class="section-subtitle">Explore our most popular personality assessments</p>
+            </div>
+            <div class="row g-4 mt-4">
+                <div class="col-lg-3 col-md-6" data-aos="flip-up" data-aos-delay="100">
+                    <div class="personality-card text-center" onclick="window.location.href='tests.html?test=mbti'">
+                        <div class="icon" style="font-size: 2.5rem;">🧠</div>
+                        <h5>MBTI Test</h5>
+                        <p class="text-secondary small">16 Personality Types</p>
+                        <span class="badge bg-primary">Popular</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="flip-up" data-aos-delay="200">
+                    <div class="personality-card text-center" onclick="window.location.href='tests.html?test=bigfive'">
+                        <div class="icon" style="font-size: 2.5rem;">📊</div>
+                        <h5>Big Five</h5>
+                        <p class="text-secondary small">OCEAN Model</p>
+                        <span class="badge bg-success">New</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="flip-up" data-aos-delay="300">
+                    <div class="personality-card text-center" onclick="window.location.href='tests.html?test=disc'">
+                        <div class="icon" style="font-size: 2.5rem;">🎯</div>
+                        <h5>DISC Test</h5>
+                        <p class="text-secondary small">Behavioral Assessment</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="flip-up" data-aos-delay="400">
+                    <div class="personality-card text-center" onclick="window.location.href='tests.html?test=enneagram'">
+                        <div class="icon" style="font-size: 2.5rem;">🌟</div>
+                        <h5>Enneagram</h5>
+                        <p class="text-secondary small">9 Personality Types</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h2 class="section-title">What Our <span class="text-gradient">Users Say</span></h2>
+                <p class="section-subtitle">Join thousands of people who discovered their true selves</p>
+            </div>
+            <div class="row g-4 mt-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="glass p-4 h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: 1.5rem;">👩</div>
+                            <div class="ms-3">
+                                <h6 class="mb-0">Sarah Johnson</h6>
+                                <small class="text-secondary">Psychology Student</small>
+                            </div>
+                        </div>
+                        <p class="text-secondary">"PersonaVerse helped me understand my MBTI type perfectly. The insights were incredibly accurate and detailed!"</p>
+                        <div class="text-warning">★★★★★</div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="glass p-4 h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-success rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: 1.5rem;">👨</div>
+                            <div class="ms-3">
+                                <h6 class="mb-0">Michael Chen</h6>
+                                <small class="text-secondary">Software Engineer</small>
+                            </div>
+                        </div>
+                        <p class="text-secondary">"The career recommendations were spot on! I discovered my ideal work environment and career path."</p>
+                        <div class="text-warning">★★★★★</div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="glass p-4 h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-info rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: 1.5rem;">👩</div>
+                            <div class="ms-3">
+                                <h6 class="mb-0">Emily Davis</h6>
+                                <small class="text-secondary">Teacher</small>
+                            </div>
+                        </div>
+                        <p class="text-secondary">"I love the astrology section! The compatibility readings are very detailed and accurate."</p>
+                        <div class="text-warning">★★★★☆</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section class="py-5" style="background: var(--glass-bg);">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h2 class="section-title">Frequently Asked <span class="text-gradient">Questions</span></h2>
+            </div>
+            <div class="row justify-content-center mt-4">
+                <div class="col-lg-8">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item glass mb-3 border-0" data-aos="fade-up" data-aos-delay="100">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-transparent text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    <i class="fas fa-question-circle me-2 text-primary"></i>What is PersonaVerse?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-secondary">
+                                    PersonaVerse is a comprehensive personality discovery platform offering MBTI, Big Five, DISC, Enneagram tests, astrology, compatibility, and fun interactive games.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item glass mb-3 border-0" data-aos="fade-up" data-aos-delay="200">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-transparent text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    <i class="fas fa-question-circle me-2 text-primary"></i>Is my data secure?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-secondary">
+                                    Yes! All your data is stored locally in your browser using LocalStorage. We don't store any data on servers.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item glass mb-3 border-0" data-aos="fade-up" data-aos-delay="300">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-transparent text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    <i class="fas fa-question-circle me-2 text-primary"></i>How accurate are the tests?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-secondary">
+                                    Our tests are based on established psychological frameworks and validated methodologies. However, they should be used for self-discovery and entertainment purposes.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== NEWSLETTER ===== -->
+    <section class="py-5">
+        <div class="container">
+            <div class="glass p-5 text-center" data-aos="zoom-in">
+                <h3 class="mb-3">Stay <span class="text-gradient">Updated</span></h3>
+                <p class="text-secondary mb-4">Subscribe to our newsletter for new tests, features, and insights</p>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <input type="email" class="form-control bg-transparent border-secondary text-white" style="max-width: 300px;" placeholder="Enter your email">
+                    <button class="btn btn-gradient">Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="brand">
+                        <i class="fas fa-brain me-2"></i><span>Persona</span>Verse
+                    </div>
+                    <p class="text-secondary mt-3" style="font-size: 0.9rem; max-width: 300px;">
+                        Discover your true self through personality tests, zodiac insights, and interactive experiences.
+                    </p>
+                    <div class="social">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-spotify"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Explore</h6>
+                    <div class="links">
+                        <a href="tests.html">Tests</a>
+                        <a href="mbti.html">MBTI</a>
+                        <a href="zodiac.html">Zodiac</a>
+                        <a href="games.html">Games</a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6 mb-4 mb-md-0">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Community</h6>
+                    <div class="links">
+                        <a href="leaderboard.html">Leaderboard</a>
+                        <a href="blog.html">Blog</a>
+                        <a href="compatibility.html">Compatibility</a>
+                        <a href="settings.html">Settings</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-white mb-3" style="font-size: 0.9rem;">Stay Updated</h6>
+                    <p class="text-secondary" style="font-size: 0.85rem;">Subscribe to get the latest personality insights and updates.</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Your email" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 50px 0 0 50px; padding: 0.6rem 1rem;">
+                        <button class="btn btn-gradient" style="border-radius: 0 50px 50px 0; padding: 0.6rem 1.2rem;">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr class="divider">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <span class="bottom-text">© 2026 PersonaVerse. All rights reserved.</span>
+                <div class="bottom-text d-flex gap-3">
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Privacy Policy</a>
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Terms of Service</a>
+                    <a href="#" style="color: rgba(255,255,255,0.2); text-decoration: none;">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/storage.js"></script>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100,
+            easing: 'ease-out-cubic'
+        });
+
+        // ===== CONFETTI FUNCTION =====
+        function triggerConfetti() {
+            const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4ade80', '#60a5fa', '#f59e0b'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const piece = document.createElement('div');
+                    piece.className = 'confetti-piece';
+                    piece.style.left = Math.random() * 100 + 'vw';
+                    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    piece.style.width = Math.random() * 10 + 5 + 'px';
+                    piece.style.height = Math.random() * 10 + 5 + 'px';
+                    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    piece.style.animationDuration = Math.random() * 2 + 2 + 's';
+                    document.body.appendChild(piece);
+                    setTimeout(() => piece.remove(), 4000);
+                }, i * 30);
+            }
+        }
+
+        // ===== THEME TOGGLE (Demo) =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('personaverse-theme') || 'dark';
+            document.documentElement.setAttribute('data-bs-theme', savedTheme);
+            
+            // Add theme toggle to settings page
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function() {
+                    const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-bs-theme', newTheme);
+                    localStorage.setItem('personaverse-theme', newTheme);
+                });
+            }
+        });
+
+        // ===== TOAST SYSTEM =====
+        function showToast(message, type = 'success') {
+            const container = document.querySelector('.toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast align-items-center text-white border-0 show bg-${type}`;
+            toast.setAttribute('role', 'alert');
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">${message}</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // ===== SCROLL ANIMATIONS =====
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                    }
+                });
+            });
+            observer.observe(el);
+        });
+
+        // ===== COUNTER ANIMATION =====
+        document.querySelectorAll('.stat-number').forEach(counter => {
+            const target = parseInt(counter.textContent);
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    counter.textContent = target + '+';
+                    clearInterval(timer);
+                } else {
+                    counter.textContent = Math.floor(current) + '+';
+                }
+            }, 30);
+        });
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        console.log('🚀 PersonaVerse loaded successfully!');
+        console.log('🌟 Discover your true personality today!');
+    </script>
+</body>
+</html>
